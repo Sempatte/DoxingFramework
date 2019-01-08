@@ -20,11 +20,11 @@ sudo python install
 
 Usage:
 
-<pre><i><n> python DoxingFramework </pre></i></n>
+<pre><i> python DoxingFramework </pre></i>
 
-*Use 'use' [module] to select option
-*Use 'showm' to open the menu of modules.
-*Use 'exit' or 'ctrl + c' to close the framework.
-*Use 'clear' to clear the console.
-*Use 'clear' to clear the console.
+* Use 'use' [module] to select option
+* Use 'showm' to open the menu of modules.
+* Use 'exit' or 'ctrl + c' to close the framework.
+* Use 'clear' to clear the console.
+* Use 'clear' to clear the console.
 
