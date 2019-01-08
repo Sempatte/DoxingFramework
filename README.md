@@ -8,8 +8,8 @@ Doxing Framework, is a tool that allows the search of information about a person
 |Distribution | Version Check | supported | status |
 ----------|-------|------|-------|
 |Kali Linux|2017.2 | yes | working   |
-|Parrot Security OS|3.8 | no | working   |
-|Windows|10 |yes | working   |
+|Parrot Security OS|3.8 | no | not working   |
+|Windows|8/10 |yes | working   |
 |Ubuntu|17.10 |yes | working   |
 
 # INSTALLATION & USAGE 
@@ -27,3 +27,5 @@ Usage:
 * Use 'clear' to clear the console.
 * Use 'clear' to clear the console.
 
+# DEVELOPERS
+* Sebastian De la Torre - [@sebastin2014](https://twitter.com/sebastin2014) 
