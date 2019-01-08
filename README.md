@@ -11,3 +11,20 @@ Doxing Framework, is a tool that allows the search of information about a person
 |Parrot Security OS|3.8 | no | working   |
 |Windows|10 |yes | working   |
 |Ubuntu|17.10 |yes | working   |
+
+# INSTALLATION & USAGE 
+
+Installation:
+<pre><i><n>git clone https://github.com/Sempatte/DoxingFramework.git
+sudo python install
+
+Usage:
+
+<pre><i><n> python DoxingFramework </pre></i></n>
+
+*Use 'use' [module] to select option
+*Use 'showm' to open the menu of modules.
+*Use 'exit' or 'ctrl + c' to close the framework.
+*Use 'clear' to clear the console.
+*Use 'clear' to clear the console.
+
