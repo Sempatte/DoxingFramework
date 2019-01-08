@@ -27,5 +27,8 @@ Usage:
 * Use 'clear' to clear the console.
 * Use 'clear' to clear the console.
 
+# SUPPORT
+Suggestions, bugs or questions to : sempatte@protonmail.com
+
 # DEVELOPERS
 * Sebastian De la Torre - [@sebastin2014](https://twitter.com/sebastin2014) 
