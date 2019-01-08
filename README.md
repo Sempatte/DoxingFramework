@@ -19,7 +19,7 @@ Installation:
 sudo python install
 
 Usage:
-<pre><i> python DoxingFramework </pre></i>
+<pre>python DoxingFramework </pre>
 * Use 'use' [module] to select option
 * Use 'showm' to open the menu of modules.
 * Use 'exit' or 'ctrl + c' to close the framework.
