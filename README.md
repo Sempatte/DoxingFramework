@@ -17,9 +17,11 @@ Doxing Framework, is a tool that allows the search of information about a person
 Installation:
 <pre><i><n>git clone https://github.com/Sempatte/DoxingFramework.git
 sudo python install
+</pre></i></n>
 
 Usage:
 <pre>python DoxingFramework </pre>
+
 * Use 'use' [module] to select option
 * Use 'showm' to open the menu of modules.
 * Use 'exit' or 'ctrl + c' to close the framework.
