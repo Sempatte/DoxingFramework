@@ -13,8 +13,9 @@
 #######################################
 
 import sys, os, getpass, smtplib, time, json, signal, webbrowser, argparse
- 
-from colorama import Fore
+from libs.colors import *
+
+
 
 def ClearS():
     if os.name == "nt":
@@ -23,15 +24,14 @@ def ClearS():
         os.system("clear")
     else:
         pass
+
+
 from libs.modules import CheckM, pprint
 from libs.modules import DeleteCache
+from libs.modules import ctrl_c
 
-def _ctrlc(signal, frame):
-    print Fore.YELLOW + '\n\n[Canceled by user: Ctrl+C Detected.] Exiting of' + Fore.GREEN +  ' |DoxingFramework| ...'
-    time.sleep(2)
-    DeleteCache()
 
-signal.signal(signal.SIGINT, _ctrlc)
+signal.signal(signal.SIGINT, ctrl_c)
 
 ClearS()
 
@@ -39,34 +39,30 @@ ClearS()
 # nt: Windows
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-d", "--depelover", help="Developer executes as way", action="store_true")
+parser.add_argument("-d", "--developer", help="Developer executes as way", action="store_true")
 args = parser.parse_args()
 
-if args.depelover:
+
+from io import *
+
+# noinspection PyBroadException
+try:
+    from libs.view import *
+except:
+    print "\n [!] Please check your Internet Connectivity."
+
+if args.developer:
+    # noinspection PyUnresolvedReferences
     import pip, pycurl, urllib, lxml, requests, mechanize
-    from grab import Grab, error
+    from grab import Grab
     from urllib2 import urlopen
     from bs4 import BeautifulSoup
-    from colorama import *
-    from io import BytesIO
-    from libs.view import *
-    if os.name == "nt":
-        init(convert=True)
-        os.system('mode 800')
-    elif os.name == "posix":
-        init(convert=False)
+
 else:
-    if os.name == "nt":
-        os.system("color 6")
-        print "\n [!]::[Check Dependencies]: \n"
-    else:
-        print "\n [!]::[Check Dependencies]: \n"
-        pass
-
-    from io import BytesIO
-
-
+    print Yellow + "\n [!]::[Check Dependencies]: \n"
+    # noinspection PyBroadException
     try:
+
         import pip
         pprint(Module_E="pip")
         time.sleep(1)
@@ -79,14 +75,15 @@ else:
         time.sleep(1)
     except ImportError:
         CheckM(Module="pycurl")
-
+    """
     def connected(host='http://google.com'):
+        # noinspection PyBroadException
         try:
             urlopen(host)
             return True
         except:
             return False
-    """
+    
     if connected():
       import pycurl
       buffer = BytesIO()
@@ -116,6 +113,7 @@ else:
       sys.exit()
     """
 
+
     try:
         import urllib
         pprint(Module_E="urllib")
@@ -124,13 +122,15 @@ else:
         CheckM(Module="urllib")
 
     try:
-        from grab import Grab, error
+        # noinspection PyUnresolvedReferences
+        from grab import Grab
         pprint(Module_E="grab")
         time.sleep(1)
     except ImportError:
         CheckM(Module="grab")
 
     try:
+        # noinspection PyUnresolvedReferences
         from urllib2 import urlopen
         pprint(Module_E="urllib2")
         time.sleep(1)
@@ -145,6 +145,7 @@ else:
         CheckM(Module="lxml")
 
     try:
+        # noinspection PyUnresolvedReferences
         from bs4 import BeautifulSoup
         pprint(Module_E="bs4")
         time.sleep(1)
@@ -152,11 +153,11 @@ else:
         CheckM(Module="bs4")
 
     try:
-        import requests
-        pprint(Module_E="requests")
+        import request
+        pprint(Module_E="request")
         time.sleep(1)
     except ImportError:
-        CheckM(Module="requests")
+        CheckM(Module="request")
 
     try:
         import mechanize
@@ -166,36 +167,28 @@ else:
         CheckM(Module="mechanize")
 
 
-    try:
-        from colorama import *
-        pprint(Module_E="colorama")
-        if os.name == "nt":
-            init(convert=True)
-            os.system('mode 800')
-        elif os.name == "posix":
-            init(convert=False)
-        time.sleep(1)
-    except ImportError:
-        CheckM(Module="colorama")
-
     time.sleep(2)
     ClearS()
 
     if os.name == "nt":
         os.system('color f')
-        print Fore.WHITE
+        print White
     else:
         pass
 
-from libs.view import *
 
-from colorama import *
 Banner()
 Menu()
 Help()
+
+
+dfm = Yellow + '[' + Red + 'd' + White + 'f' + Red + 'm' + Yellow + ']' + White + ': '
+
+
 while True:
-    print Fore.WHITE
-    choice = raw_input("\n1 ")
+    print White
+    choice = raw_input(dfm)
+    print White
     choice = choice.lower()
 
     u = 'use '
@@ -208,9 +201,9 @@ while True:
     O_7 = u+'pys/fake_email' #Opcion siete (Enviar correo fake)
 
     if choice == O_1:
-        print Fore.MAGENTA + "\n[#] Use" + Fore.RED +' back ' + Fore.MAGENTA + "to back to menu."
-        print Fore.MAGENTA + "[~] Leave blank to back the menu."
-        print Fore.WHITE
+        print Purple + "\n[#] Use" + Red +' back ' + Purple + "to back to menu."
+        print Purple + "[~] Leave blank to back the menu."
+        print White
         server = raw_input("[+] Mail server: Gmail o Hotmail/Outlook: ")
         server = server.lower()
 
@@ -218,21 +211,21 @@ while True:
         if server == 'outlook':
             server = 'hotmail'
         #Permitir1
-        print Fore.GREEN
-        advr = "\n[!] In order to use the '%s' MailServer correctly you must allow access\n\n"%(server)
+        print Green
+        advr = "\n[!] in order to use the '{}' mailserver correctly you must allow access\n\n".format(server)
         if server == 'gmail':
             print advr
             print "Forum: https://support.google.com/a/answer/6260879?hl=es"
             print "Direct link: https://myaccount.google.com/u/0/security?hl=es#connectedapps\n"
             webbrowser.open_new("https://myaccount.google.com/u/0/security?hl=es#connectedapps")
-            print Fore.YELLOW + "[SWITCH] To allow the access of sure applications: " + Fore.RED + "YES"
+            print Yellow + "[SWITCH] To allow the access of sure applications: " + Red + "YES"
             pass
         elif server == 'hotmail':
             print advr
             print "Direct link: https://outlook.live.com/owa/?path=/options/popandimap\n"
             webbrowser.open_new("https://outlook.live.com/owa/?path=/options/popandimap")
-            print Fore.YELLOW + "[SWITCH] To allow that the devices and the applications should use POP: " + Fore.RED + "YES"
-            print Fore.YELLOW + "[SWITCH] It is possible to establish that the devices and the applications that they use POP eliminate Outlook's messages after unloading them. " + Fore.RED + "YES"
+            print Yellow + "[SWITCH] To allow that the devices and the applications should use POP: " + Red + "YES"
+            print Yellow + "[SWITCH] It is possible to establish that the devices and the applications that they use POP eliminate Outlook's messages after unloading them. " + Red + "YES"
             pass
         elif server == 'back':
             continue
@@ -242,7 +235,7 @@ while True:
             print "[!] Select a correct server.\n"
             continue
 
-        print Fore.WHITE
+        print White
         #Correo atacante
         M_FTA = "Mail from the attacker: "
         user = str(raw_input('[+] '+ M_FTA))
@@ -256,29 +249,29 @@ while True:
             pass
 
 
-        cda = ('\n[SET] ' + M_FTA + '%s')%(user)
-        print Fore.GREEN + cda
-        print Fore.WHITE
+        cda = '\n[SET] ' + M_FTA + '{}'.format(user)
+        print Green + cda
+        print White
         password = getpass.getpass('[+] Attacker password: ')
 
         #Correo victima
         to = raw_input('\n[+] Victima: ')
-        vct = ("[SET] Victim's Mail: %s")%(to)
+        vct = "[SET] Victim's Mail: {}".format(to)
 
         C = '\n[?] Confirm? Y/N: '
         confirm_two = raw_input(C)
-        print Fore.WHITE
+        print White
         confirm_two = confirm_two.lower()
 
         if confirm_two == 'N':
             vct = str(raw_input("\n[REPET] Victim's Mail: "))
         else:
-            print Fore.GREEN + vct
+            print Green + vct
 
 
 
         #Mensaje
-        print Fore.WHITE
+        print White
         body = raw_input('[+] Message to send: ')
 
         #Nº
@@ -287,14 +280,14 @@ while True:
         except ValueError:
             print "[!] Please place only numbers"
             continue
-        nmr = ('\n[SET] N: %s')%(numero)
+        nmr = '\n[SET] N: {}'.format(numero)
 
-        print Fore.GREEN + nmr
+        print Green + nmr
 
         #Confirmar proceso
-        print Fore.RED
+        print Red
         cfr_dos = raw_input("n[?] Are you sure you want to continue? Y/N: ")
-        print Fore.WHITE
+        print White
         if cfr_dos == 'N':
             continue
         else:
@@ -325,9 +318,8 @@ while True:
 
             for i in range(1, numero+1):
                 subject = os.urandom(9)
-                msg = (body)
 
-                server.sendmail(user, to ,msg)
+                server.sendmail(user,to,body)
                 sends = "\rE-mails sent: [%i]" % i
                 print sends
                 sys.stdout.flush()
@@ -347,19 +339,19 @@ while True:
             continue
 
     elif choice == O_2:
-        print Fore.MAGENTA + "\n[~] Use" + Fore.RED +' select ' + Fore.WHITE + ' [option] ' + Fore.MAGENTA + "to select option." + Fore.WHITE + "   Ex: select p_name"
-        print Fore.MAGENTA + "[~] Leave blank to back the menu."
-        print Fore.YELLOW + '\n[p_name]          Buscar por NOMBRES \n[p_dni]           Buscar por DNI \n '
-        print Fore.WHITE
+        print Purple + "\n[~] Use" + Red +' select ' + White + ' [option] ' + Purple + "to select option." + White + "   Ex: select p_name"
+        print Purple + "[~] Leave blank to back the menu."
+        print Yellow + '\n[p_name]          Buscar por NOMBRES \n[p_dni]           Buscar por DNI \n '
+        print White
 
         try:
             server = raw_input('[#] Insert your option: ')
             server = server.lower()
         except KeyboardInterrupt:
-            print Fore.YELLOW + '\n\n[Cancelado por el usuario] Saliendo de |DoxingFramework| ... \n'
+            print Yellow + '\n\n[Cancelado por el usuario] Saliendo de |DoxingFramework| ... \n'
             sys.exit()
 
-        print Fore.YELLOW
+        print Yellow
         if server == 'select p_name' or server == 'p_name':
 
             ape_pat = raw_input('\n[+] Insert the paternal surname: ')
@@ -374,6 +366,7 @@ while True:
 
             g = Grab()
 
+            # noinspection PyBroadException
             try:
                 g.go('http://dniperu.online/buscador/buscardni_1.php')
             except:
@@ -399,8 +392,8 @@ while True:
             ############# PRINT ##############
 
             #NOMBRES
-            print Fore.GREEN + '\n[#]Names: '
-            print Fore.CYAN + '       ' + names
+            print Green + '\n[#]Names: '
+            print Cyan + '       ' + names
             #DNI
 
 
@@ -415,11 +408,11 @@ while True:
 
 
             if dni == 'one': #Not found dni | one = NONE ;)
-                print Fore.GREEN + '[#]DNI: '
-                print Fore.CYAN + '       ' + 'NOT FOUND.'
+                print Green + '[#]DNI: '
+                print Cyan + '       ' + 'NOT FOUND.'
             else:
-                print Fore.GREEN + '[#]DNI: '
-                print Fore.CYAN + '       ' + dni + '\n'
+                print Green + '[#]DNI: '
+                print Cyan + '       ' + dni + '\n'
 
             f.close()
 
@@ -432,7 +425,7 @@ while True:
 
         elif server == 'select p_dni' or server == 'p_dni':
 
-            print Fore.WHITE + "[!] In maintance."
+            print White + "[!] In maintance."
             continue
 
             """
@@ -443,7 +436,7 @@ while True:
               br.open('http://dniperu.online/buscar-nombres-y-apellidos-con-dni/')
               br.select_form(name='form1')
             except:
-              print Fore.RED + "[!] Verify your internet connectivity. "
+              print Red + "[!] Verify your internet connectivity. "
               continue
         
             #DATOS
@@ -460,18 +453,18 @@ while True:
             ############# PRINT ##############
         
             #DNI
-            print Fore.GREEN + '\n[#]DNI: '
-            print Fore.CYAN + '       ' + dni_number
+            print Green + '\n[#]DNI: '
+            print Cyan + '       ' + dni_number
         
             try:
                 nombres_b = str(soup.find("span", attrs={'class': 'more_info'}).getText())
                 nombres_i = nombres_b
-                print Fore.GREEN + '[#]Nombres: '
-                print Fore.CYAN + '       ' + nombres_i + '\n'
+                print Green + '[#]Nombres: '
+                print Cyan + '       ' + nombres_i + '\n'
                 time.sleep(2)
             except AttributeError:
-                print Fore.GREEN + '[#]Nombres: '
-                print Fore.CYAN + '       NO ENCONTRADO.' + '\n'
+                print Green + '[#]Nombres: '
+                print Cyan + '       NO ENCONTRADO.' + '\n'
             """
 
         elif server == '':
@@ -481,8 +474,8 @@ while True:
 
     elif choice == O_3:
 
-        print Fore.MAGENTA + "\n[~] Leave blank to back the menu."
-        print Fore.WHITE
+        print Purple + "\n[~] Leave blank to back the menu."
+        print White
 
         try:
             access_key = '7ffd7b8e4cd47b7f818dc55be7505fd8'
@@ -501,15 +494,15 @@ while True:
             text = r.read()
 
             f = open(number+'.json','a')
-            f.write(text)
+            f.write(text.decode('utf-8'))
             f.close()
 
 
-            def cargar_datos(ruta):
-                with open(ruta) as contenido:
+            def cargar_datos(rutacon_2):
+                with open(rutacon_2) as contenido:
                     number_a = json.load(contenido)
                     A = json.dumps(number_a, indent=4, sort_keys=True).replace('{', '').replace('}', '').replace('"', '').replace('_', ' ').replace(',', '').replace('    ', '[+] ')
-                    print Fore.GREEN
+                    print Green
                     if 'valid: false' in A:
                         print "[!] Wrong number"
                     elif 'valid: true' in A:
@@ -519,40 +512,36 @@ while True:
                     else:
                         print A.upper()
 
-            ruta = number + ".json"
-            cargar_datos(ruta)
+            rutacon = number + ".json"
+            cargar_datos(rutacon)
 
 
             if os.name == "nt":
-                os.system("del /F /Q " + ruta)
+                os.system("del /F /Q " + rutacon)
             elif os.name == "posix":
-                os.system("rm " + ruta)
+                os.system("rm " + rutacon)
             else:
                 pass
 
         except ValueError :
             if os.name == "nt":
-                os.system("del /F /Q " + ruta)
+                os.system("del /F /Q " + rutacon)
             elif os.name == "posix":
-                os.system("rm " + ruta)
+                os.system("rm " + rutacon)
             else:
                 print "Delete the file with extention '.json'"
 
     elif choice == O_4:
-        print Fore.MAGENTA
+        print Purple
 
-        print "[~] Use"+ Fore.RED + ' clear ' + Fore.MAGENTA + "to clear the console."
-        print Fore.MAGENTA + "[~] Use" + Fore.RED +' back ' + Fore.MAGENTA + "to back to menu."
+        print "[~] Use"+ Red + ' clear ' + Purple + "to clear the console."
+        print Purple + "[~] Use" + Red +' back ' + Purple + "to back to menu."
 
-        print Fore.WHITE
-        buffer = BytesIO()
-        c = pycurl.Curl()
-        c.setopt(c.URL, 'http://ipv4.wtfismyip.com/text')
-        c.setopt(c.WRITEDATA, buffer)
-        c.perform()
-        c.close()
-        body = buffer.getvalue()
-        ip = body.decode('iso-8859-1')
+        print White
+
+        openipv4 = urlopen('http://ipv4.wtfismyip.com/text')
+        ip = openipv4.read()
+
         print 'Your IP: {}'.format(ip)
         __ip = raw_input('[#] Insert IP: ')
         if __ip == 'back':
@@ -561,43 +550,45 @@ while True:
             pass
         url = 'http://ipapi.co/{}/json/'.format(__ip)
 
+        # noinspection PyBroadException
         try:
             r = urlopen(url)
             text = r.read()
         except:
-            print Fore.RED + "\n[!] Invalid IP \n"
-            print Fore.WHITE    
+            print Red + "\n[!] Invalid IP \n"
+            print White
             continue
 
         f = open(__ip+'.json','a')
-        f.write(text)
+        f.write(text.decode('utf-8'))
         f.close()
 
-        def cargar_datos(ruta):
-            with open(ruta) as contenido:
+        def cargar_datos_2(ruta_2):
+            with open(ruta_2) as contenido:
                 w_ip = json.load(contenido)
                 A = json.dumps(w_ip, indent=4, sort_keys=True)
                 A = A.upper()
 
 
-                print Fore.GREEN
+                print Green
                 Line = '-------------------------------------------------------------------------------------------------------------------------------'
-                print Fore.YELLOW + '\n' + Line
+                print Yellow + '\n' + Line
 
 
                 dates_ip = A.replace('{', '').replace('}', '').replace('"', '').replace('    ', '[+] ').replace('_', ' ').replace(',', '')
                 if "ERROR: TRUE" in dates_ip:
-                    print Fore.RED + "\n[!] Invalid IP \n"
+                    print Red + "\n[!] Invalid IP \n"
                 else:
                     print dates_ip
                     pass
 
-                print Fore.YELLOW + Line + '\n'
-                print Fore.WHITE
-        
+                print Yellow + Line + '\n'
+                print White
+
+
         try:
             ruta = __ip + ".json"
-            cargar_datos(ruta)
+            cargar_datos_2(ruta)
 
             if os.name == "nt":
                 os.system("del /F /Q " + ruta)
@@ -614,8 +605,8 @@ while True:
                 pass
 
     elif choice == O_5:
-        print Fore.MAGENTA + "\n\n[~] Leave blank to back the menu."
-        print Fore.WHITE
+        print Purple + "\n\n[~] Leave blank to back the menu."
+        print White
         sys.stdout.write("[#] Insert the eMail: ")
         sys.stdout.flush()
         e_Mail = raw_input()
@@ -625,21 +616,22 @@ while True:
         elif e_Mail == '':
             continue
         else:
-            print Fore.RED + "\n[!] eMail Invalid! " + Fore.WHITE
+            print Red + "\n[!] eMail Invalid! " + White
             continue
         url_3 = 'http://api.2ip.me/email.txt?email={}'.format(e_Mail)
 
+        # noinspection PyBroadException
         try:
             OP = urlopen(url_3)
             VW = OP.read()
             if 'true' in VW:
-                print Fore.GREEN + "\n[+] This email " + Fore.YELLOW + e_Mail + Fore.GREEN + " if it exists\n"
+                print Green + "\n[+] This email " + Yellow + e_Mail + Green + " if it exists\n"
             elif 'false' in VW:
-                print Fore.RED + "\n[+] This email "  + Fore.YELLOW + e_Mail + Fore.RED + " does not exist\n"
+                print Red + "\n[+] This email "  + Yellow + e_Mail + Red + " does not exist\n"
             else:
-                print Fore.RED + "\n[!] Limit of returned objects has been reached. Please change your IP \n"
+                print Red + "\n[!] Limit of returned objects has been reached. Please change your IP \n"
         except:
-            print Fore.RED + '\n[!] Check your internet conectivity'
+            print Red + '\n[!] Check your internet conectivity'
 
     elif choice == O_6:
 
@@ -660,25 +652,25 @@ while True:
                         openurl_c = urlopen(url_c)
                         readurl_c = openurl_c.read()
                         if "Insufficient credits" in readurl_c or "Invalid login details" in readurl_c:
-                            print Fore.RED + "\n[!] Please contact the depelover: sempatte@protonmail.com"
+                            print Red + "\n[!] Please contact the depelover: sempatte@protonmail.com"
                         elif "success" in readurl_c:
-                            print Fore.GREEN + "\n[A3#] Sended!"
+                            print Green + "\n[A3#] Sended!"
                         else:
                             pass
                     elif "success" in readurl_b:
-                        print Fore.GREEN + "\n[A2#] Sended!"
+                        print Green + "\n[A2#] Sended!"
                     else:
                         pass
                 elif "success" in readurl:
-                    print Fore.GREEN + "\n[A1#] Sended!"
+                    print Green + "\n[A1#] Sended!"
                 else:
                     pass
             except UnboundLocalError:
-                print Fore.RED + "[!] Do not use space in messages"
+                print Red + "[!] Do not use space in messages"
 
-        print Fore.MAGENTA + "\n[~] Use " + Fore.RED + "'+'" + Fore.MAGENTA + " instead of space" + Fore.WHITE + " Ex: Hello+World+:)"
-        print Fore.MAGENTA + "[~] Use" + Fore.RED +' back ' + Fore.MAGENTA + "to back to menu. \n"
-        print Fore.WHITE
+        print Purple + "\n[~] Use " + Red + "'+'" + Purple + " instead of space" + White + " Ex: Hello+World+:)"
+        print Purple + "[~] Use" + Red +' back ' + Purple + "to back to menu. \n"
+        print White
         victim_number = raw_input('[+]Insert the number: +')
 
         if victim_number == 'back':
@@ -714,10 +706,10 @@ while True:
 
     elif choice == O_7:
 
-        print Fore.MAGENTA + "\n\n[~] Leave blank to back the menu."
-        print Fore.MAGENTA + "[~] Do not use domains like" + Fore.WHITE + " facebook.com, google.com, gmail.com, etc."
+        print Purple + "\n\n[~] Leave blank to back the menu."
+        print Purple + "[~] Do not use domains like" + White + " facebook.com, google.com, gmail.com, etc."
        
-        print Fore.GREEN
+        print Green
         from_name = raw_input('[#] From name: ') #Name
 
         if from_name == '': continue
@@ -729,7 +721,7 @@ while True:
         elif from_email == '' or to == '':
             continue
         else:
-            print Fore.RED + "\n[!] eMail Invalid! " + Fore.WHITE
+            print Red + "\n[!] eMail Invalid! " + White
             continue
 
         to = raw_input('[#] To: ') #To email
@@ -765,11 +757,10 @@ while True:
 
 
         if 'Email sended.' in email_req.text:
-            print Fore.YELLOW + "\n[#] Fake email sended."
-            print Fore.WHITE
+            print Yellow + "\n[#] Fake email sended."
+            print White
         else:
-            print Fore.RED + "[!] Email not sended."
-        
+            print Red + "[!] Email not sended."
 
     elif choice == "exit":
         DeleteCache()
