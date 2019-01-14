@@ -14,6 +14,7 @@
 
 import sys, os, getpass, smtplib, time, json, signal, webbrowser, argparse
 from libs.colors import *
+from libs.modules import DetectPyVersion
 
 
 
@@ -46,23 +47,54 @@ args = parser.parse_args()
 from io import *
 
 # noinspection PyBroadException
-try:
-    from libs.view import *
-except:
-    print "\n [!] Please check your Internet Connectivity."
+
+from libs.view import *
+
 
 if args.developer:
     # noinspection PyUnresolvedReferences
-    import pip, pycurl, urllib, lxml, requests, mechanize
-    from grab import Grab
+    import pip, pycurl, urllib, lxml, requests, request
     from urllib2 import urlopen
     from bs4 import BeautifulSoup
 
 else:
+    DetectPyVersion()
     print Yellow + "\n [!]::[Check Dependencies]: \n"
+
+
+    def connected(host='http://google.com'):
+        # noinspection PyBroadException
+        try:
+            urlopen(host)
+            return True
+        except:
+            return False
+
+    if connected():
+        openipv4 = urlopen('http://ipv4.wtfismyip.com/text')
+        ip = openipv4.read()
+        op_sys = sys.platform.replace('win32', 'Windows').replace('cygwin', 'Windows')
+
+        if os.name == 'nt':
+            check = "Y"
+        elif os.name == 'posix':
+            check = "✓"
+
+        print ' [' + Green + check + Yellow + ']::[Connectivity to Internet]:' + Green + ' YES!' + Yellow
+        print ' [' + Green + check + Yellow + ']::[DISTRO / O.S]: ' + Green + op_sys + Yellow
+
+    else:
+        if os.name == 'nt':
+            _no = "N"
+        elif os.name == 'posix':
+            _no = "✘"
+
+        print ' [' + Red + _no + Yellow + ']::[Connectivity to Internet]:' + Red + ' NO!' + Yellow
+        print Red + "\n [!] Please check your Internet Connectivity. " + White
+        exit(1)
+
     # noinspection PyBroadException
     try:
-
         import pip
         pprint(Module_E="pip")
         time.sleep(1)
@@ -75,43 +107,6 @@ else:
         time.sleep(1)
     except ImportError:
         CheckM(Module="pycurl")
-    """
-    def connected(host='http://google.com'):
-        # noinspection PyBroadException
-        try:
-            urlopen(host)
-            return True
-        except:
-            return False
-    
-    if connected():
-      import pycurl
-      buffer = BytesIO()
-      c = pycurl.Curl()
-      c.setopt(c.URL, 'https://ipv4.wtfismyip.com/text')
-      c.setopt(c.WRITEDATA, buffer)
-      c.perform()
-      c.close()
-      body = buffer.getvalue()
-      ip = body.decode('iso-8859-1')
-      op_sys = platform.system()
-      if os.name == 'nt':
-        IP_PV = ' [Y]::[Connectivity to Internet]: YES!'
-        PV = ' [Y]::[DISTRO / O.S]: ' + op_sys
-      elif os.name == 'posix':
-        IP_PV = ' [✓]::[Connectivity to Internet]: YES!'
-        PV = ' [✓]::[DISTRO / O.S]: ' + op_sys
-      print IP_PV
-      print PV
-    else:
-      if os.name == 'nt':
-        IP_PV = ' [N]::[Connectivity to Internet]: NO!'
-      elif os.name == 'posix':
-        IP_PV = ' [✘]::[Connectivity to Internet]: NO!'
-      print IP_PV
-      print "\n [!] Please check your Internet Connectivity. "
-      sys.exit()
-    """
 
 
     try:
@@ -122,15 +117,7 @@ else:
         CheckM(Module="urllib")
 
     try:
-        # noinspection PyUnresolvedReferences
-        from grab import Grab
-        pprint(Module_E="grab")
-        time.sleep(1)
-    except ImportError:
-        CheckM(Module="grab")
 
-    try:
-        # noinspection PyUnresolvedReferences
         from urllib2 import urlopen
         pprint(Module_E="urllib2")
         time.sleep(1)
@@ -145,12 +132,18 @@ else:
         CheckM(Module="lxml")
 
     try:
-        # noinspection PyUnresolvedReferences
         from bs4 import BeautifulSoup
         pprint(Module_E="bs4")
         time.sleep(1)
     except ImportError:
         CheckM(Module="bs4")
+
+    try:
+        import requests
+        pprint(Module_E="requests")
+        time.sleep(1)
+    except ImportError:
+        CheckM(Module="requests")
 
     try:
         import request
@@ -159,12 +152,6 @@ else:
     except ImportError:
         CheckM(Module="request")
 
-    try:
-        import mechanize
-        pprint(Module_E="mechanize")
-        time.sleep(1)
-    except ImportError:
-        CheckM(Module="mechanize")
 
 
     time.sleep(2)
@@ -181,8 +168,9 @@ Banner()
 Menu()
 Help()
 
-
+##############################  D        F         M  ###################################
 dfm = Yellow + '[' + Red + 'd' + White + 'f' + Red + 'm' + Yellow + ']' + White + ': '
+#########################################################################################
 
 
 while True:
@@ -327,7 +315,7 @@ while True:
             print "\n[!] Done with success!\n"
         except KeyboardInterrupt:
             print "[Ctrl+C] Canceled by user."
-            sys.exit()
+            exit(1)
         except smtplib.SMTPAuthenticationError:
             print '\n[!] The user/email or password introduced from the attacker are wrong. Try it again.'
             continue
@@ -349,7 +337,7 @@ while True:
             server = server.lower()
         except KeyboardInterrupt:
             print Yellow + '\n\n[Cancelado por el usuario] Saliendo de |DoxingFramework| ... \n'
-            sys.exit()
+            exit(1)
 
         print Yellow
         if server == 'select p_name' or server == 'p_name':
@@ -364,30 +352,38 @@ while True:
             _names = _names.upper()
 
 
-            g = Grab()
+            user_agent = 'Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'
+            sess = requests.Session()
+            email_req = sess.post('http://dniperu.online/buscador/buscardni_1.php', headers={
+                'User-Agent': user_agent,
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+                'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8',
+                'Accept-Encoding': 'gzip, deflate',
+                'Referer': 'http://dniperu.online/buscador/buscardni_1.php',
+                'Upgrade-Insecure-Requests': '1',
+                'Connection': 'keep-alive',
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Host': 'dniperu.online',
+                'Origin': 'http://dniperu.online'
+            }, data={
+                'APE_PAT': ape_pat,
+                'APE_MAT': ape_mat,
+                'nombres': _names
+            })
 
-            # noinspection PyBroadException
-            try:
-                g.go('http://dniperu.online/buscador/buscardni_1.php')
-            except:
-                g.go('http://dniperu.online/buscador/buscardni_1.php')
+            i = email_req.text
+            j = open('dni_dat.html', 'w')
+            j.write(i)
 
+            j.close()
 
-            g.doc.choose_form(name='form1')
-            g.doc.set_input('APE_PAT', ape_pat)
-            g.doc.set_input('APE_MAT', ape_mat)
-            g.doc.set_input('NOMBRES', _names)
-
-            g.submit()
-            g.doc.save('01010.html')
-
-            f = open ('01010.html','r')
-            mensaje = f.read()
+            f = open('dni_dat.html','r')
+            datos_dni = f.read()
 
 
             names = ape_pat + ' ' + ape_mat + ' ' + _names
 
-            soup = BeautifulSoup(mensaje, 'lxml')
+            soup = BeautifulSoup(datos_dni, 'lxml')
 
             ############# PRINT ##############
 
@@ -417,9 +413,9 @@ while True:
             f.close()
 
             if os.name == "nt":
-                os.system("del /F /Q 01010.html")
+                os.system("del /F /Q dni_dat.html")
             elif os.name == "posix":
-                os.system("rm 01010.html")  
+                os.system("rm dat_dni.html")
             else:
                 pass
 
@@ -755,12 +751,19 @@ while True:
             'Submit': 'Send'
         })
 
+        a = email_req.text
 
-        if 'Email sended.' in email_req.text:
+        f = open('dat.html', 'w')
+
+        f.write(a.decode('utf-8'))
+
+        if 'Email sended.' in a:
             print Yellow + "\n[#] Fake email sended."
             print White
         else:
             print Red + "[!] Email not sended."
+
+        f.close()
 
     elif choice == "exit":
         DeleteCache()

@@ -77,7 +77,7 @@ def Help():
 
 
 def Menu():
-    print Yellow +'\n--------------------------------------------------------------------------------------------------------------------'
+    print Green +'\n--------------------------------------------------------------------------------------------------------------------'
     print Blue + '\n         Module                                        Description\n'
     print Yellow + ' |::| dox/find_dni                 Search for the DNI number or name. Working only in Peru'
     print               ' |::| pys/email_bomb               Send emails in bigs quantities '
@@ -86,5 +86,5 @@ def Menu():
     print               ' |::| dox/ve_email                 Check if the email exists. '
     print               ' |::| pys/send_sms                 Send free SMS. '
     print               ' |::| pys/fake_email               Send fake emails. '
-    print Yellow +'--------------------------------------------------------------------------------------------------------------------'
+    print Green +'--------------------------------------------------------------------------------------------------------------------'
 

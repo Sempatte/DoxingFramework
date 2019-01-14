@@ -3,7 +3,7 @@
 
 #######################################
 #                                     #
-#     Doxing Framework uinstall       #
+#     Doxing Framework uninstall       #
 #                                     #
 #######################################
 
@@ -11,63 +11,72 @@
 import os, time, subprocess
 from sys import stdout
 # noinspection PyUnresolvedReferences
-from libs.colors import *
+from libs import colors
 # noinspection PyUnresolvedReferences
 from libs.view import *
 
+if os.name == "nt":
+    os.system("cls")
+elif os.name == "posix":
+    os.system("clear")
+else:
+    pass
 
-print Yellow +"               ______  "+ Green +" _______  __   __  ___   __    _  _______                    "+ Red +"               ____             "
-print Yellow +"              |      | "+ Green +"|       ||  |_|  ||___| |  |  | ||       |                   "+ Red +"        _,-ddd888888bbb-._      "
-print Yellow +"              |  _    |"+ Green +"|   _   ||       | ___  |   |_| ||    ___|                   "+ Red +"      d88888888888888888888b    "
-print Yellow +"              | | |   |"+ Green +"|  | |  ||       ||   | |       ||   | __                    "+ Red +"    d888888888888888888888888b  "
-print Yellow +"              | |_|   |"+ Green +"|  |_|  | |     | |   | |  _    ||   ||  |                   "+ Red +"   6888888888888888888888888889 "
-print Yellow +"              |       |"+ Green +"|       ||   _   ||   | | | |   ||   |_| |                   "+ Red +"   68888b8##8q8888888p8##8d88889"
-print Yellow +"              |______| "+ Green +"|_______||__| |__||___| |_|  |__||_______|                   "+ Red +"   `d8887     p88888q     4888b'"
-print Yellow +"   _______ "+ Green +" ______    _______ "+ Yellow +" __   __ "+ Green +" _______  _     _  _______  ______    ___   _   "+ Red +" `d8887    p88888q    4888b' "
-print Yellow +"  |       |"+ Green +"|    _ |  |   _   |"+ Yellow +"|  |_|  |"+ Green +"|       || | _ | ||       ||    _ |  |   | | |  "+ Red +"   `d887   p88888q   488b'   "
-print Yellow +"  |    ___|"+ Green +"|   | ||  |  |_|  |"+ Yellow +"|       |"+ Green +"|    ___|| || || ||   _   ||   | ||  |   |_| |  "+ Red +"      `d88888888888888d'     "
-print Yellow +"  |   |___ "+ Green +"|   |_||_ |       |"+ Yellow +"|       |"+ Green +"|   |___ |       ||  | |  ||   |_||_ |      _|  "+ Red +"         `d88888888b'        "
-print Yellow +"  |    ___|"+ Green +"|    __  ||       |"+ Yellow +"|       |"+ Green +"|    ___||       ||  |_|  ||    __  ||     |_   "+ Red +"           `d8888b'          "
-print Yellow +"  |   |    "+ Green +"|   |  | ||   _   |"+ Yellow +"| ||_|| |"+ Green +"|   |___ |   _   ||       ||   |  | ||    _  |  "+ Red +"             `bd'            "
-print Yellow +"  |___|    "+ Green +"|___|  |_||__| |__|"+ Yellow +"|_|   |_|"+ Green +"|_______||__| |__||_______||___|  |_||___| |_|  "+ Red +"                             "
+from libs.modules import DetectPyVersion
+DetectPyVersion()
+
+print colors.Yellow +"               ______  "+ colors.Green +" _______  __   __  ___   __    _  _______                    "+ colors.Red +"               ____             "
+print colors.Yellow +"              |      | "+ colors.Green +"|       ||  |_|  ||___| |  |  | ||       |                   "+ colors.Red +"        _,-ddd888888bbb-._      "
+print colors.Yellow +"              |  _    |"+ colors.Green +"|   _   ||       | ___  |   |_| ||    ___|                   "+ colors.Red +"      d88888888888888888888b    "
+print colors.Yellow +"              | | |   |"+ colors.Green +"|  | |  ||       ||   | |       ||   | __                    "+ colors.Red +"    d888888888888888888888888b  "
+print colors.Yellow +"              | |_|   |"+ colors.Green +"|  |_|  | |     | |   | |  _    ||   ||  |                   "+ colors.Red +"   6888888888888888888888888889 "
+print colors.Yellow +"              |       |"+ colors.Green +"|       ||   _   ||   | | | |   ||   |_| |                   "+ colors.Red +"   68888b8##8q8888888p8##8d88889"
+print colors.Yellow +"              |______| "+ colors.Green +"|_______||__| |__||___| |_|  |__||_______|                   "+ colors.Red +"   `d8887     p88888q     4888b'"
+print colors.Yellow +"   _______ "+ colors.Green +" ______    _______ "+ colors.Yellow +" __   __ "+ colors.Green +" _______  _     _  _______  ______    ___   _   "+ colors.Red +" `d8887    p88888q    4888b' "
+print colors.Yellow +"  |       |"+ colors.Green +"|    _ |  |   _   |"+ colors.Yellow +"|  |_|  |"+ colors.Green +"|       || | _ | ||       ||    _ |  |   | | |  "+ colors.Red +"   `d887   p88888q   488b'   "
+print colors.Yellow +"  |    ___|"+ colors.Green +"|   | ||  |  |_|  |"+ colors.Yellow +"|       |"+ colors.Green +"|    ___|| || || ||   _   ||   | ||  |   |_| |  "+ colors.Red +"      `d88888888888888d'     "
+print colors.Yellow +"  |   |___ "+ colors.Green +"|   |_||_ |       |"+ colors.Yellow +"|       |"+ colors.Green +"|   |___ |       ||  | |  ||   |_||_ |      _|  "+ colors.Red +"         `d88888888b'        "
+print colors.Yellow +"  |    ___|"+ colors.Green +"|    __  ||       |"+ colors.Yellow +"|       |"+ colors.Green +"|    ___||       ||  |_|  ||    __  ||     |_   "+ colors.Red +"           `d8888b'          "
+print colors.Yellow +"  |   |    "+ colors.Green +"|   |  | ||   _   |"+ colors.Yellow +"| ||_|| |"+ colors.Green +"|   |___ |   _   ||       ||   |  | ||    _  |  "+ colors.Red +"             `bd'            "
+print colors.Yellow +"  |___|    "+ colors.Green +"|___|  |_||__| |__|"+ colors.Yellow +"|_|   |_|"+ colors.Green +"|_______||__| |__||_______||___|  |_||___| |_|  "+ colors.Red +"                             "
 if os.name == "posix":
-    print Cyan + '\n                              ╔════════════════════════════════╗'
-    print Green + '                                    UNINSTALLING TOOL           '
-    print Cyan + '                              ╚════════════════════════════════╝'
-    print White
-elif os.name == "nt":
-    print Cyan + '\n                                                              '
-    print Green + '                           UNINSTALLING TOOL                    '
-    print Cyan + '                                                                '
-    print White
+    print colors.Cyan + '\n                              ╔════════════════════════════════╗'
+    print colors.Green + '                                    UNINSTALLING TOOL           '
+    print colors.Cyan + '                              ╚════════════════════════════════╝'
+    print colors.White
+else:
+    print colors.Cyan + '\n                                                              '
+    print colors.Green + '                           UNINSTALLING TOOL                    '
+    print colors.Cyan + '                                                                '
+    print colors.White
 
 
 def Command_exe(msg, cmd):
-    i = "\033[1mSTATUS" + White + ":[Processing]"
+    i = "\033[1mSTATUS" + colors.White + "::[Processing]"
     stdout.write(" " + msg + " %s" % i)
     stdout.flush()
     os.system(cmd)
-    j = "[\033[1m" + Green + "OK" + White + "]"
+    j = "[\033[1m" + colors.Green + "OK" + colors.White + "]"
     stdout.write("\r " + msg + " STATUS::%s" % j)
 
 
 if os.name == "nt":
-    print " [" + Red + "-" + White + "] ERROR:" + Blue + " DoxingFramework " + Blue + " only can be installed in " + Red + "Linux" + White + "."
+    print " [" + colors.Red + "-" + colors.White + "] ERROR:" + colors.Blue + " DoxingFramework" + colors.Blue + " only can be install in " + colors.Red + "Linux" + colors.White + "."
     exit(1)
 
 if os.getuid() != 0:
-    print " [" + Red + "-" + White + "] ERROR:" + Blue + " DoxingFramework Install" + Blue + " must be run as " + Red + "root" + White + "."
-    print " [" + Red + "-" + White + "] login as root (" + Red + "sudo" + White + ") or try " + White + "sudo python uninstall" + White + "\n"
+    print " [" + colors.Red + "-" + colors.White + "] ERROR:" + colors.Blue + " DoxingFramework Install" + colors.Blue + " must be run as " + colors.Red + "root" + colors.White + "."
+    print " [" + colors.Red + "-" + colors.White + "] login as root (" + colors.Red + "sudo" + colors.White + ") or try " + colors.White + "sudo python uninstall" + colors.White + "\n"
     exit(1)
 
 time.sleep(1)
 
 
-print Yellow + "UNINSTALLING THE FRAMEWORK...\n"
+print colors.Yellow + "   UNINSTALLING THE FRAMEWORK...\n"
 print Command_exe("[" +time.strftime('%H:%M:%S')+"] Deleting Folders.                 ",'rm -r /usr/share/DoxingFramework')
 time.sleep(2)
 print Command_exe("[" +time.strftime('%H:%M:%S')+"] Deleting Files.                   ",'rm -f /usr/local/bin/DoxingFramework')
 time.sleep(3)
 
 
-print Green + "\n[OK]" + White + " DoxingFramework was uninstalled" + Yellow + ' ,thanks for use' + Green + ' |DoxingFramework|\n' + White
+print colors.Green + "\n[OK]" + colors.White + " DoxingFramework was uninstalled" + colors.Yellow + ' ,thanks for use' + colors.Green + ' |DoxingFramework|\n' + colors.White

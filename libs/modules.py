@@ -1,21 +1,41 @@
 # -*- coding: UTF8 -*-
 
-import os, time, sys
+import os
+import time
+from sys import stdout
+import sys
+
 from colors import *
+
+def DetectPyVersion():
+  py_version = sys.version_info[0]
+  if py_version == 2:
+    pass
+  else:
+    print "Your you need the version 2.7. X of Python"
+    exit(1)
+
+def Command_exe(msg, cmd):
+  i = "STATUS" + White + "::[Processing]"
+  stdout.write( msg + " %s" % i)
+  stdout.flush()
+  os.system(cmd)
+  j = White + "[" + Green + "OK" + White + "]"
+  stdout.write(Yellow + "\n" + msg + " STATUS" + White + "::%s" % j)
 
 def CheckM(Module):
 
 
   global chk_1
   ModuleI = Module.upper()
-  line = "--------------------------------------------------------------------------------------------------------------------"
+  line = White + "--------------------------------------------------------------------------------------------------------------------" + Yellow
 
   if os.name == "nt":
     chk_1 = "N"
   elif os.name == "posix":
     chk_1 = "✘"
 
-  print " [ " + chk_1 + "]" + "::[" + ModuleI + "]: " + "Not installed! "
+  print " [" + Red + chk_1 + Yellow + "]" + "::[" + ModuleI + "]: " + Red + "Not installed! " + Yellow
 
 
   if os.name == "nt":
@@ -31,7 +51,7 @@ def CheckM(Module):
     print line
     chk_2 = "✓"
 
-  print "\n [" + chk_2 + "]" + "::[" + ModuleI + "]: " + "Installed! "
+  print "\n [" + Green + chk_2 + Yellow + "]" + "::[" + ModuleI + "]: " + Green + "Installed! " + Yellow
 
 def pprint(Module_E):
   global simbol
@@ -42,21 +62,21 @@ def pprint(Module_E):
   elif os.name == "posix":
     simbol = "✓"
 
-  print " [" + simbol + "]" + "::[" + Module_L + "]: " + "Installed! "
+  print " [" + Green + simbol + Yellow + "]" + "::[" + Module_L + "]: " + Green + "Installed! " + Yellow
 
 def DeleteCache():
-  print Yellow + '\n[/] Deleting cache... '
-
+  print "\n"
   if os.name == "posix":
-    os.system("rm libs/__init__.pyc && rm libs/modules.pyc && rm libs/view.pyc && rm libs/colors.pyc")
-    os.system("cd && rm usr/share/DoxingFramework/libs/__init__.pyc && rm usr/share/DoxingFramework/libs/modules.pyc && rm libs/view.pyc && rm usr/share/DoxingFramework/libs/colors.pyc")
+    print Command_exe(White + "[" + time.strftime('%H:%M:%S') + "]" + Yellow + "  Deleting Cache.                 ", 'rm libs/__init__.pyc && rm libs/modules.pyc && rm libs/view.pyc && rm libs/colors.pyc')
+    print Command_exe(White + "[" + time.strftime('%H:%M:%S') + "]" + Yellow + "  Deleting Cache.                 ", 'cd && rm usr/share/DoxingFramework/libs/__init__.pyc && rm usr/share/DoxingFramework/libs/modules.pyc && rm libs/view.pyc && rm usr/share/DoxingFramework/libs/colors.pyc')
+
   elif os.name == "nt":
-    os.system("cd libs && del /F /Q __init__.pyc && del /F /Q modules.pyc && del /F /Q view.pyc && del /F /Q colors.pyc")
+    print Command_exe(White + "[" + time.strftime('%H:%M:%S') + "]" + Yellow + "  Deleting Cache.                 ", 'cd libs && del /F /Q __init__.pyc && del /F /Q modules.pyc && del /F /Q view.pyc && del /F /Q colors.pyc')
   else:
     pass
 
   time.sleep(1.0)
-  print Yellow + '[/] Thanks for use' + Green + ' |DoxingFramework|' + White
+  print Yellow + '\n[/] Thanks for use' + Green + ' |DoxingFramework|' + White
   time.sleep(1.5)
 
   if os.name == "nt":  
@@ -65,9 +85,10 @@ def DeleteCache():
     os.system("clear")
   else:
     pass
-  sys.exit()
+
+  exit(1)
 
 def ctrl_c(signal, frame):
-  print Yellow + '\n\n[Canceled by user: Ctrl+C Detected.] Exiting of' + Green + ' |DoxingFramework| ...'
+  print Yellow + '\n\n[Canceled by user: Ctrl+C Detected.] Exiting of' + Green + ' |DoxingFramework| ...' + Yellow
   time.sleep(2)
   DeleteCache()
