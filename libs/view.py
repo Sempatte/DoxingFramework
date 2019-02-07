@@ -21,7 +21,7 @@ from urllib2 import URLError
 openurl_version = urlopen('http://pastebin.com/raw/vbbNwSYJ') # _version =Online Version
 _version = openurl_version.read()
 
-_v = '1.5' # Version
+_v = '1.8' # Version
 
 if _version == _v:
     D = " (UPDATED)"
@@ -52,13 +52,13 @@ def Banner():
     print Yellow +"  |   |    "+ Green +"|   |  | ||   _   |"+ Yellow +"| ||_|| |"+ Green +"|   |___ |   _   ||       ||   |  | ||    _  |  "+ Red +"             `bd'            "
     print Yellow +"  |___|    "+ Green +"|___|  |_||__| |__|"+ Yellow +"|_|   |_|"+ Green +"|_______||__| |__||_______||___|  |_||___| |_|  "+ Red +"                             "
     if os.name == "posix":
-        print Cyan + '\n                ╔════════════════════════════════╗'+ Red + '      DEPELOVER:      SEMPATTE'
+        print Cyan + '\n                ╔════════════════════════════════╗'+ Red + '      DEVELOPER:      SEMPATTE'
         print Cyan + '                   https://www.fuck-society.com   '+ Red + '      DATE:           18/06/18'
         print Cyan + '                ╚════════════════════════════════╝'+ Red + '      VERSION:        '+_v + Yellow + D
         print Red  + '                                                        ONLINE VERSION: ' + _version_2
         print White
     elif os.name == "nt":
-        print Cyan + '\n                                                '+ Red + '        DEPELOVER:      SEMPATTE'
+        print Cyan + '\n                                                '+ Red + '        DEVELOPER:      SEMPATTE'
         print Cyan + '                  https://www.fuck-society.com    '+ Red + '      DATE:           18/06/18'
         print Cyan + '                                                  '+ Red + '      VERSION:        '+_v + Yellow + D
         print Red  + '                                                        ONLINE VERSION: ' + _version_2
