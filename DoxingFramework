@@ -32,6 +32,7 @@ def Hola():
 from libs.modules import CheckM, pprint
 from libs.modules import DeleteCache
 from libs.modules import ctrl_c
+from libs.modules import Update
 
 
 signal.signal(signal.SIGINT, ctrl_c)
@@ -783,6 +784,8 @@ while True:
         f.close()
 
     elif choice == "exit": DeleteCache()
+
+    elif choice == "update": Update()
 
     elif choice == "help":
         ClearS()

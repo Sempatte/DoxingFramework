@@ -3,9 +3,13 @@
 import os
 import time
 from sys import stdout
-import sys
+import sys, webbrowser
 
 from colors import *
+
+def VersionLocal():
+    return '1.8'
+
 
 def DetectPyVersion():
   py_version = sys.version_info[0]
@@ -92,3 +96,23 @@ def ctrl_c(signal, frame):
   print Yellow + '\n\n[Canceled by user: Ctrl+C Detected.] Exiting of' + Green + ' |DoxingFramework| ...' + Yellow
   time.sleep(2)
   DeleteCache()
+
+
+def Update():
+    from urllib2 import urlopen
+    openurl_version = urlopen('http://pastebin.com/raw/vbbNwSYJ')  # Online version
+    version_online = openurl_version.read()
+
+    if os.name == "posix":
+        if VersionLocal() == version_online:
+            print Red + "[!]" + Yellow + " DoxingFramework is updated to the latest version."
+        else:
+            print Command_exe(White + "[" + time.strftime('%H:%M:%S') + "]" + Yellow + "  Updating...                                ", 'git clone https://github.com/Sempatte/DoxingFramework.git /tmp/doxfm')
+            print Command_exe(White + "[" + time.strftime('%H:%M:%S') + "]" + Yellow + "  Coping and deleting files.                 ", 'cp -R /tmp/doxfm/* /usr/share/DoxingFramework/ && rm -rf /tmp/doxfm')
+            print Command_exe(White + "[" + time.strftime('%H:%M:%S') + "]" + Yellow + "  Installed.                                 ", 'echo DoxingFramework was updated.')
+            exit(1)
+    else:
+        print Red + "[!]" + Yellow + " Doxing framework cannot be updated in Windows."
+        time.sleep(1.5)
+        webbrowser.open_new("https://github.com/Sempatte/DoxingFramework")
+

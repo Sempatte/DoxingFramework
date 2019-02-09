@@ -16,14 +16,14 @@ def connected(host='http://google.com'):
 from urllib2 import urlopen
 # noinspection PyUnresolvedReferences
 from urllib2 import URLError
+from modules import VersionLocal
 
-
-openurl_version = urlopen('http://pastebin.com/raw/vbbNwSYJ') # _version =Online Version
+openurl_version = urlopen('http://pastebin.com/raw/vbbNwSYJ') # Online version
 _version = openurl_version.read()
 
-_v = '1.8' # Version
 
-if _version == _v:
+
+if _version == VersionLocal():
     D = " (UPDATED)"
 else:
     D = " (OUTDADED)"
@@ -54,13 +54,13 @@ def Banner():
     if os.name == "posix":
         print Cyan + '\n                ╔════════════════════════════════╗'+ Red + '      DEVELOPER:      SEMPATTE'
         print Cyan + '                   https://www.fuck-society.com   '+ Red + '      DATE:           18/06/18'
-        print Cyan + '                ╚════════════════════════════════╝'+ Red + '      VERSION:        '+_v + Yellow + D
+        print Cyan + '                ╚════════════════════════════════╝'+ Red + '      VERSION:        '+ VersionLocal() + Yellow + D
         print Red  + '                                                        ONLINE VERSION: ' + _version_2
         print White
     elif os.name == "nt":
         print Cyan + '\n                                                '+ Red + '        DEVELOPER:      SEMPATTE'
         print Cyan + '                  https://www.fuck-society.com    '+ Red + '      DATE:           18/06/18'
-        print Cyan + '                                                  '+ Red + '      VERSION:        '+_v + Yellow + D
+        print Cyan + '                                                  '+ Red + '      VERSION:        '+ VersionLocal() + Yellow + D
         print Red  + '                                                        ONLINE VERSION: ' + _version_2
         print White
 
@@ -73,7 +73,7 @@ def Help():
     print '[~] Use' + Red +  ' exit ' + Purple + 'to close the framework.'
     print '[~] Use'+ Red + ' clear ' + Purple + 'to clear the console. '
     print '[~] Use'+ Red + ' help ' + Purple + 'to open the menu of help. '
-
+    print '[~] Use' + Red + ' update ' + Purple + 'to update DoxingFramework. '
 
 
 def Menu():
