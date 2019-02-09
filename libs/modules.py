@@ -107,8 +107,8 @@ def Update():
         if VersionLocal() == version_online:
             print Red + "[!]" + Yellow + " DoxingFramework is updated to the latest version."
         else:
-            print Command_exe(White + "[" + time.strftime('%H:%M:%S') + "]" + Yellow + "  Updating...                                ", 'git clone https://github.com/Sempatte/DoxingFramework.git /tmp/doxfm')
-            print Command_exe(White + "[" + time.strftime('%H:%M:%S') + "]" + Yellow + "  Coping and deleting files.                 ", 'cp -R /tmp/doxfm/* /usr/share/DoxingFramework/ && rm -rf /tmp/doxfm')
+            print Command_exe(White + "[" + time.strftime('%H:%M:%S') + "]" + Yellow + "  Updating...                                ", 'git clone https://github.com/Sempatte/DoxingFramework.git /tmp')
+            print Command_exe(White + "[" + time.strftime('%H:%M:%S') + "]" + Yellow + "  Coping and deleting files.                 ", 'cp -R /tmp/* /usr/share/DoxingFramework/ && rm -rf /tmp')
             print Command_exe(White + "[" + time.strftime('%H:%M:%S') + "]" + Yellow + "  Installed.                                 ", 'echo DoxingFramework was updated.')
             exit(1)
     else:
