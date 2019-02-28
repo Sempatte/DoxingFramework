@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
+import platform
+
+if platform.python_version()[0] == '2':
+    pass
+else:
+    print("You need the version 2.7.X of Python")
+    exit(1)
+
 #######################################
 #                                     #
 #           Doxing Framework          #
@@ -8,13 +16,13 @@
 #  Tool made by: Sempatte             #
 #  Date: 18 June, 2018                #
 #  Version: 1.3                       #
-#  Link: www.fuck-society.  com         #
+#  Link: www.fuck-society.com         #
 #                                     #
 #######################################
 
+
 import sys, os, getpass, smtplib, time, json, signal, webbrowser, argparse
 from libs.colors import *
-
 
 
 def ClearS():
@@ -25,14 +33,12 @@ def ClearS():
     else:
         pass
 
-def Hola():
-    return True
-
 
 from libs.modules import CheckM, pprint
 from libs.modules import DeleteCache
 from libs.modules import ctrl_c
 from libs.modules import Update
+
 
 
 signal.signal(signal.SIGINT, ctrl_c)
@@ -190,7 +196,6 @@ while True:
 
     if choice == O_1:
         print Purple + "\n[#] Use" + Red +' back ' + Purple + "to back to menu."
-        print Purple + "[~] Leave blank to back the menu."
         print White
         server = raw_input("[+] Mail server: Gmail o Hotmail/Outlook: ")
         server = server.lower()
@@ -327,146 +332,91 @@ while True:
             continue
 
     elif choice == O_2:
-        print Purple + "\n[~] Use" + Red +' select ' + White + ' [option] ' + Purple + "to select option." + White + "   Ex: select p_name"
-        print Purple + "[~] Leave blank to back the menu."
-        print Yellow + '\n[p_name]          Buscar por NOMBRES \n[p_dni]           Buscar por DNI \n '
+
+        print Purple + "\n[#] Use" + Red + ' back ' + Purple + "to back to menu."
+
         print White
-
-        try:
-            server = raw_input('[#] Insert your option: ')
-            server = server.lower()
-        except KeyboardInterrupt:
-            print Yellow + '\n\n[Cancelado por el usuario] Saliendo de |DoxingFramework| ... \n'
-            exit(1)
-
         print Yellow
-        if server == 'select p_name' or server == 'p_name':
 
-            ape_pat = raw_input('\n[+] Insert the paternal surname: ')
-            ape_pat = ape_pat.upper()
+        ape_pat = raw_input('\n[+] Insert the paternal surname: ')
+        ape_pat = ape_pat.upper()
 
-            ape_mat = raw_input('\n[+] Insert the maternal surname: ')
-            ape_mat = ape_mat.upper()
-
-            _names = raw_input('\n[+] Insert the names: ')
-            _names = _names.upper()
-
-
-            user_agent = 'Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'
-            sess = requests.Session()
-            email_req = sess.post('http://dniperu.online/buscador/buscardni_1.php', headers={
-                'User-Agent': user_agent,
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-                'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8',
-                'Accept-Encoding': 'gzip, deflate',
-                'Referer': 'http://dniperu.online/buscador/buscardni_1.php',
-                'Upgrade-Insecure-Requests': '1',
-                'Connection': 'keep-alive',
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Host': 'dniperu.online',
-                'Origin': 'http://dniperu.online'
-            }, data={
-                'APE_PAT': ape_pat,
-                'APE_MAT': ape_mat,
-                'nombres': _names
-            })
-
-            i = email_req.text
-            j = open('dni_dat.html', 'w')
-            j.write(i)
-
-            j.close()
-
-            f = open('dni_dat.html','r')
-            datos_dni = f.read()
-
-
-            names = ape_pat + ' ' + ape_mat + ' ' + _names
-
-            soup = BeautifulSoup(datos_dni, 'lxml')
-
-            ############# PRINT ##############
-
-            #NOMBRES
-            print Green + '\n[#]Names: '
-            print Cyan + '       ' + names
-            #DNI
-
-
-            dni_f = str(soup.find("td", attrs={'style': 'width:80%;'}))
-
-            dni = dni_f.replace('A', '').replace('B', '').replace('C', '').replace('D', '').replace('E', '')
-            dni = dni.replace('F', '').replace('G', '').replace('H', '').replace('I', '').replace('J', '')
-            dni = dni.replace('K', '').replace('L', '').replace('M', '').replace('N', '').replace('Ñ', '').replace('O', '')
-            dni = dni.replace('P', '').replace('Q', '').replace('R', '').replace('S', '').replace('T', '')
-            dni = dni.replace('U', '').replace('V', '').replace('W', '').replace('X', '').replace('Y', '')
-            dni = dni.replace('Z', '').replace('<td style="width:80%;"><b>', '').replace('</b> </td>', '').replace(chr(194), '').replace(chr(160), '').replace(' ', '')
-
-
-            if dni == 'one': #Not found dni | one = NONE ;)
-                print Green + '[#]DNI: '
-                print Cyan + '       ' + 'NOT FOUND.'
-            else:
-                print Green + '[#]DNI: '
-                print Cyan + '       ' + dni + '\n'
-
-            f.close()
-
-            if os.name == "nt":
-                os.system("del /F /Q dni_dat.html")
-            elif os.name == "posix":
-                os.system("rm dat_dni.html")
-            else:
-                pass
-
-        elif server == 'select p_dni' or server == 'p_dni':
-
-            print White + "[!] In maintance."
+        if ape_pat == 'back':
             continue
 
-            """
-            try:
-              br = mechanize.Browser()
-              br.set_handle_robots(False)
-              br.addheaders = [('User-agent', 'Chrome/58.0.3029.83')]
-              br.open('http://dniperu.online/buscar-nombres-y-apellidos-con-dni/')
-              br.select_form(name='form1')
-            except:
-              print Red + "[!] Verify your internet connectivity. "
-              continue
-        
-            #DATOS
-            dni_number = raw_input('\n[+] Inserte el numero de DNI: ')
-            br.form["dni"] = dni_number
-        
-            sub = br.submit()
-            datos = sub.read()
-        
-            #BeatifulSoup
-            soup = BeautifulSoup(datos, 'lxml')
-            body_tag = soup.body
-        
-            ############# PRINT ##############
-        
-            #DNI
-            print Green + '\n[#]DNI: '
-            print Cyan + '       ' + dni_number
-        
-            try:
-                nombres_b = str(soup.find("span", attrs={'class': 'more_info'}).getText())
-                nombres_i = nombres_b
-                print Green + '[#]Nombres: '
-                print Cyan + '       ' + nombres_i + '\n'
-                time.sleep(2)
-            except AttributeError:
-                print Green + '[#]Nombres: '
-                print Cyan + '       NO ENCONTRADO.' + '\n'
-            """
+        ape_mat = raw_input('\n[+] Insert the maternal surname: ')
+        ape_mat = ape_mat.upper()
 
-        elif server == '':
-            continue
+        _names = raw_input('\n[+] Insert the names: ')
+        _names = _names.upper()
+
+
+        user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36'
+        sess = requests.Session()
+        email_req = sess.post('http://dniperu.online/buscador/buscardni_1.php', headers={
+            'User-Agent': user_agent,
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+            'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8',
+            'Accept-Encoding': 'gzip, deflate',
+            'Referer': 'http://dniperu.online/buscador/buscardni_1.php',
+            'Upgrade-Insecure-Requests': '1',
+            'Connection': 'keep-alive',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Host': 'dniperu.online',
+            'Origin': 'http://dniperu.online'
+        }, data={
+            'APE_PAT': ape_pat,
+            'APE_MAT': ape_mat,
+            'NOMBRES': _names
+        })
+
+        i = email_req.text
+        j = open('dni_dat.html', 'w')
+        j.write(i)
+
+        j.close()
+
+        f = open('dni_dat.html','r')
+        datos_dni = f.read()
+
+
+        names = ape_pat + ' ' + ape_mat + ' ' + _names
+
+        soup = BeautifulSoup(datos_dni, 'lxml')
+
+        ############# PRINT ##############
+
+        #NOMBRES
+        print Green + '\n[#]Names: '
+        print Cyan + '       ' + names
+        #DNI
+
+
+        dni_f = str(soup.find("td", attrs={'style': 'width:80%;'}))
+
+        dni = dni_f.replace('A', '').replace('B', '').replace('C', '').replace('D', '').replace('E', '')
+        dni = dni.replace('F', '').replace('G', '').replace('H', '').replace('I', '').replace('J', '')
+        dni = dni.replace('K', '').replace('L', '').replace('M', '').replace('N', '').replace('Ñ', '').replace('O', '')
+        dni = dni.replace('P', '').replace('Q', '').replace('R', '').replace('S', '').replace('T', '')
+        dni = dni.replace('U', '').replace('V', '').replace('W', '').replace('X', '').replace('Y', '')
+        dni = dni.replace('Z', '').replace('<td style="width:80%;"><b>', '').replace('</b> </td>', '').replace(chr(194), '').replace(chr(160), '').replace(' ', '')
+
+
+        if dni == 'one': #Not found dni | one = NONE ;)
+            print Green + '[#]DNI: '
+            print Cyan + '       ' + 'NOT FOUND.'
         else:
-            print '\n' + '[!] Selecciona una opcion correcta!' + '\n'
+            print Green + '[#]DNI: '
+            print Cyan + '       ' + dni + '\n'
+
+        f.close()
+
+        if os.name == "nt":
+            os.system("del /F /Q dni_dat.html")
+        elif os.name == "posix":
+            os.system("rm dat_dni.html")
+        else:
+            pass
 
     elif choice == O_3:
 
@@ -722,7 +672,7 @@ while True:
 
         print Purple + "\n\n[~] Leave blank to back the menu."
         print Purple + "[~] Do not use domains like" + White + " facebook.com, google.com, gmail.com, etc."
-       
+
         print Green
         from_name = raw_input('[#] From name: ') #Name
 
@@ -782,6 +732,11 @@ while True:
             print Red + "[!] Email not sended."
 
         f.close()
+
+        if os.name == "nt":
+            os.system("del /F /Q dat.html")
+        else:
+            os.system("rm dat.html")
 
     elif choice == "exit": DeleteCache()
 

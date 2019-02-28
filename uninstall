@@ -23,7 +23,7 @@ else:
     pass
 
 from libs.modules import DetectPyVersion
-DetectPyVersion()
+
 
 print colors.Yellow +"               ______  "+ colors.Green +" _______  __   __  ___   __    _  _______                    "+ colors.Red +"               ____             "
 print colors.Yellow +"              |      | "+ colors.Green +"|       ||  |_|  ||___| |  |  | ||       |                   "+ colors.Red +"        _,-ddd888888bbb-._      "
@@ -41,12 +41,12 @@ print colors.Yellow +"  |   |    "+ colors.Green +"|   |  | ||   _   |"+ colors.
 print colors.Yellow +"  |___|    "+ colors.Green +"|___|  |_||__| |__|"+ colors.Yellow +"|_|   |_|"+ colors.Green +"|_______||__| |__||_______||___|  |_||___| |_|  "+ colors.Red +"                             "
 if os.name == "posix":
     print colors.Cyan + '\n                              ╔════════════════════════════════╗'
-    print colors.Green + '                                    UNINSTALLING TOOL           '
+    print colors.Green + '                                      UNINSTALLING TOOL           '
     print colors.Cyan + '                              ╚════════════════════════════════╝'
     print colors.White
 else:
     print colors.Cyan + '\n                                                              '
-    print colors.Green + '                           UNINSTALLING TOOL                    '
+    print colors.Green + '                             UNINSTALLING TOOL                    '
     print colors.Cyan + '                                                                '
     print colors.White
 

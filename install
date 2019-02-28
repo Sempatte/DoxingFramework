@@ -23,7 +23,7 @@ elif os.name == "posix":
 else:
     pass
 
-DetectPyVersion()
+
 
 
 print Yellow +"               ______  "+ Green +" _______  __   __  ___   __    _  _______                    "+ Red +"               ____             "
