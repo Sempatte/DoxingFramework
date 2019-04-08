@@ -12,12 +12,12 @@ def VersionLocal():
 
 
 def DetectPyVersion():
-  py_version = sys.version_info[0]
-  if py_version == 2:
-    pass
-  else:
-    print "Your you need the version 2.7. X of Python"
-    exit(1)
+    import platform
+    if platform.python_version()[0] == '2':
+        pass
+    else:
+        print("You need the version 2.7.X of Python")
+        exit(1)
 
 def Command_exe(msg, cmd):
   i = "STATUS" + White + "::[Processing]"
@@ -28,7 +28,6 @@ def Command_exe(msg, cmd):
   stdout.write(Yellow + "\n" + msg + " STATUS" + White + "::%s" % j)
 
 def CheckM(Module):
-
 
   global chk_1
   ModuleI = Module.upper()

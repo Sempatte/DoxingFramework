@@ -1,13 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-import platform
 
-if platform.python_version()[0] == '2':
-    pass
-else:
-    print("You need the version 2.7.X of Python")
-    exit(1)
+
 
 #######################################
 #                                     #
@@ -15,13 +10,16 @@ else:
 #                                     #
 #  Tool made by: Sempatte             #
 #  Date: 18 June, 2018                #
-#  Version: 1.3                       #
+#  Version: 1.8                       #
 #  Link: www.fuck-society.com         #
 #                                     #
 #######################################
 
 
-import sys, os, getpass, smtplib, time, json, signal, webbrowser, argparse
+import sys, os, getpass, smtplib, time, json, signal, webbrowser, argparse, platform
+from ConfigParser import ConfigParser
+
+
 from libs.colors import *
 
 
@@ -62,13 +60,26 @@ from libs.view import *
 
 if args.developer:
     # noinspection PyUnresolvedReferences
-    import pip, pycurl, urllib, lxml, requests, request
+    import pip, pycurl, urllib, lxml, requests, request, pytesseract, sys
+    from selenium import webdriver
     from urllib2 import urlopen
+    import urllib2
     from bs4 import BeautifulSoup
+    from PIL import Image
+
+    from selenium import webdriver
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.common.keys import Keys
+    from selenium.webdriver.chrome.options import Options
+    from selenium.webdriver.support.wait import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
+    from selenium.webdriver.common.action_chains import ActionChains
+    from selenium.common.exceptions import UnexpectedAlertPresentException as UAPE
+    from selenium.common.exceptions import WebDriverException as WDE
+
 
 else:
     print Yellow + "\n [!]::[Check Dependencies]: \n"
-
 
     def connected(host='http://google.com'):
         # noinspection PyBroadException
@@ -109,6 +120,14 @@ else:
     except:
         pass
 
+
+    try:
+        import selenium
+        pprint(Module_E="selenium")
+        time.sleep(1)
+    except ImportError:
+        CheckM(Module="selenium")
+
     try:
         import pycurl
         pprint(Module_E="pycurl")
@@ -116,6 +135,12 @@ else:
     except ImportError:
         CheckM(Module="pycurl")
 
+    try:
+        import pytesseract
+        pprint(Module_E="pytesseract")
+        time.sleep(1)
+    except ImportError:
+        CheckM(Module="pytesseract")
 
     try:
         import urllib
@@ -125,7 +150,7 @@ else:
         CheckM(Module="urllib")
 
     try:
-
+        import urllib2
         from urllib2 import urlopen
         pprint(Module_E="urllib2")
         time.sleep(1)
@@ -160,6 +185,14 @@ else:
     except ImportError:
         CheckM(Module="request")
 
+    from selenium import webdriver
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.common.keys import Keys
+    from selenium.webdriver.chrome.options import Options
+    from selenium.webdriver.support.wait import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
+    from selenium.webdriver.common.action_chains import ActionChains
+    from PIL import Image
 
     time.sleep(2)
     ClearS()
@@ -174,12 +207,102 @@ Banner()
 Menu()
 Help()
 
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+
 ##############################  D        F         M  ###################################
 dfm = Yellow + '[' + Red + 'd' + White + 'f' + Red + 'm' + Yellow + ']' + White + ': '
 #########################################################################################
 
 
+
+config = ConfigParser() 
+config.read('config.ini')
+
+Continue = False
+
+while Continue == False:
+
+    if config.get("DEFAULT", "installed_tesseract") == 'Y':
+        Continue = True
+    else:
+        YN = White + "\n[?]" + Red + " Have you installed Tesseract? (Y/N): "
+        C1 = raw_input(YN)
+        C1 = C1.lower()
+
+        
+        if C1 == 'y':
+            set_path = raw_input(Red + "\n[?] " + White  + "Insert the PATH where Tesseract is installed. If you press 'ENTER' it will automatically set 'C:/Program Files/Tesseract-OCR/tesseract.exe': ")
+                
+            if set_path == '':
+                config.set("PATH", "tesseract_path", "C:\\Program Files\\Tesseract-OCR\\tesseract.exe")
+
+            
+            elif 'tesseract.exe' not in set_path:
+                print Red + "[!] " + White + "Please, insert a valid path."
+                exit(1)
+            
+            else:
+                config.set("PATH", "tesseract_path", set_path)
+
+            config.set('DEFAULT', 'installed_tesseract', 'Y')
+
+            with open('config.ini', 'wb') as configfile:
+                config.write(configfile)
+
+            Continue = True
+        
+        elif C1 == 'n':
+            config.set('DEFAULT', 'installed_tesseract', 'N')
+
+            print Red + "\n[!] " + White + "You need install Tesseract OCR to use DoxingFramework."
+            #webbrowser.open_new("https://github.com/UB-Mannheim/tesseract/wiki")
+            CCC = raw_input(Red + "\n[?] " + White + "Do you want download the archive? (Y/N): ")
+            
+            if CCC == 'N':
+                exit(1)
+            else:
+                url = "https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-v4.0.0.20181030.exe"
+
+                file_name = url.split('/')[-1]
+                u = urllib2.urlopen(url)
+                f = open(file_name, 'wb')
+                meta = u.info()
+                file_size = int(meta.getheaders("Content-Length")[0])
+                print "\nDownloading: %s Bytes: %s" % (file_name, file_size)
+
+                file_size_dl = 0
+                block_sz = 8192
+                while True:
+
+                    buffer = u.read(block_sz)
+                    if not buffer:
+                        break
+
+                    file_size_dl += len(buffer)
+                    f.write(buffer)
+                    status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
+                    status = status + chr(8)*(len(status)+1)
+                    print status,
+
+
+                f.close()
+                print "\n"
+                os.system('tesseract-ocr-w64-setup-v4.0.0.20181030.exe')
+                os.system("del /F /Q tesseract-ocr-w64-setup-v4.0.0.20181030.exe")
+
+                continue
+
+            with open('config.ini', 'wb') as configfile:
+                config.write(configfile)
+
+
+        else:
+            Continue = False
+
 while True:
+
+
+
     print White
     choice = raw_input(dfm)
     print White
@@ -334,89 +457,136 @@ while True:
     elif choice == O_2:
 
         print Purple + "\n[#] Use" + Red + ' back ' + Purple + "to back to menu."
-
         print White
-        print Yellow
-
-        ape_pat = raw_input('\n[+] Insert the paternal surname: ')
-        ape_pat = ape_pat.upper()
-
-        if ape_pat == 'back':
-            continue
-
-        ape_mat = raw_input('\n[+] Insert the maternal surname: ')
-        ape_mat = ape_mat.upper()
-
-        _names = raw_input('\n[+] Insert the names: ')
-        _names = _names.upper()
 
 
-        user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36'
-        sess = requests.Session()
-        email_req = sess.post('http://dniperu.online/buscador/buscardni_1.php', headers={
-            'User-Agent': user_agent,
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-            'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8',
-            'Accept-Encoding': 'gzip, deflate',
-            'Referer': 'http://dniperu.online/buscador/buscardni_1.php',
-            'Upgrade-Insecure-Requests': '1',
-            'Connection': 'keep-alive',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Host': 'dniperu.online',
-            'Origin': 'http://dniperu.online'
-        }, data={
-            'APE_PAT': ape_pat,
-            'APE_MAT': ape_mat,
-            'NOMBRES': _names
-        })
+        tesseract_path =  config.get("PATH", "tesseract_path")
 
-        i = email_req.text
-        j = open('dni_dat.html', 'w')
-        j.write(i)
-
-        j.close()
-
-        f = open('dni_dat.html','r')
-        datos_dni = f.read()
+        pytesseract.pytesseract.tesseract_cmd = tesseract_path
 
 
-        names = ape_pat + ' ' + ape_mat + ' ' + _names
+        def FindDNI(ape_pat_, ape_mat_, n1_, n2_):
+            page = 'http://ww4.essalud.gob.pe:7777/acredita/index.jsp'
+            service = webdriver.chrome.service.Service(os.path.abspath("libs\chromedriver\chromedriver.exe"))
+            service.start()
 
-        soup = BeautifulSoup(datos_dni, 'lxml')
+            chrome_options = Options()
+            chrome_options.add_argument("--headless")
 
-        ############# PRINT ##############
+            driver = webdriver.Remote(service.service_url, desired_capabilities=chrome_options.to_capabilities())
+            captcha_re = False
 
-        #NOMBRES
-        print Green + '\n[#]Names: '
-        print Cyan + '       ' + names
-        #DNI
+            while captcha_re == False:
+                driver.get(page)
+
+                slect = driver.find_element_by_id('BuscarPor')
+
+                for option in slect.find_elements_by_tag_name('option'):
+                    if option.text == 'Datos Personales':
+                        option.click()  # select() in earlier versions of webdriver
+                        break
+
+                try:
+                    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "ap")))
+                    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "am")))
+                    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "n1")))
+                    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "n2")))
+
+                except:
+                    print "El elemento no está presente"
+                    exit(1)
+
+                driver.find_element_by_name("ap").send_keys(ape_pat_)
+                driver.find_element_by_name("am").send_keys(ape_mat_)
+                driver.find_element_by_name("n1").send_keys(n1_)
+                driver.find_element_by_name("n2").send_keys(n2_)
+
+                driver.save_screenshot("tmp/doxfm/screenshot.png")
+                img = Image.open('tmp/doxfm/screenshot.png')
+                img_recortada = img.crop((560, 343, 677, 378))  # Prueba
+                img_recortada.save("tmp/doxfm/_recorte.png")
+
+                captcha = pytesseract.image_to_string('tmp/doxfm/_recorte.png')[0:5]
+                #print captcha #TEST
+
+                if captcha == '' or len(captcha) != 5:
+                    captcha_re = False
+                else:
+                    captcha_re = True
+
+            codigo = driver.find_element_by_name("captchafield_nom")
+            codigo.send_keys(captcha)
+            driver.find_element_by_name('submit').click()
+
+            page = driver.page_source
+
+            file_ = open('tmp/doxfm/page.html', 'w')
+            file_.write(page)
+            file_.close()
+
+            driver.close()
+            driver.quit()
 
 
-        dni_f = str(soup.find("td", attrs={'style': 'width:80%;'}))
-
-        dni = dni_f.replace('A', '').replace('B', '').replace('C', '').replace('D', '').replace('E', '')
-        dni = dni.replace('F', '').replace('G', '').replace('H', '').replace('I', '').replace('J', '')
-        dni = dni.replace('K', '').replace('L', '').replace('M', '').replace('N', '').replace('Ñ', '').replace('O', '')
-        dni = dni.replace('P', '').replace('Q', '').replace('R', '').replace('S', '').replace('T', '')
-        dni = dni.replace('U', '').replace('V', '').replace('W', '').replace('X', '').replace('Y', '')
-        dni = dni.replace('Z', '').replace('<td style="width:80%;"><b>', '').replace('</b> </td>', '').replace(chr(194), '').replace(chr(160), '').replace(' ', '')
+        ape_pat = raw_input("Insert apellido paterno: ")
+        ape_mat = raw_input("Insert apellido materno: ")
+        n1 = raw_input("Insertar primer nombre: ")
+        n2 = raw_input("Insertar segundo nombre: ")
 
 
-        if dni == 'one': #Not found dni | one = NONE ;)
-            print Green + '[#]DNI: '
-            print Cyan + '       ' + 'NOT FOUND.'
-        else:
-            print Green + '[#]DNI: '
-            print Cyan + '       ' + dni + '\n'
+        AlertText = True
+        while AlertText == True:
+            try:
+                FindDNI(ape_pat, ape_mat, n1, n2)
+                AlertText = False
+            except:
+                AlertText = True
+            '''
+            except UAPE as exception:
+                #print exception
+                AlertText = True
+            except WDE:
+                print "Necesitas tener instalado Google Chrome para ejecutar este modulo."
+                webbrowser.open('https://www.google.com/chrome/')
+                continue
+            '''
+
+
+
+        f = open('tmp/doxfm/page.html', 'r')
+        datos = f.read()
+        soup = BeautifulSoup(datos, 'lxml')
+
+        try:
+            Nombres = soup.find("input", attrs={"name": "nom"})['value']
+            DNI = soup.find("input", attrs={"name": "ndoc"})['value']
+
+            F_Nacimiento = soup.find("input", attrs={"name": "auto"})['value']
+            F_Nacimiento1 = F_Nacimiento[0:2]
+            F_Nacimiento2 = F_Nacimiento[2:4]
+            F_Nacimiento3 = F_Nacimiento[4:6]
+        except:
+            Nombres = 'Not found.'
+            DNI = '00000000'
+            F_Nacimiento1, F_Nacimiento2, F_Nacimiento3 =  "00", "00", "00"
+
+
+
+        print Green + '\n[#]Nombres: '
+        print Cyan + '       ' + Nombres + '\n'
+        print Green + '[#]DNI: '
+        print Cyan + '       ' + DNI + '\n'
+        print Green + '[#]Fecha de nacimiento: '
+        print Cyan + '       ' + F_Nacimiento3 + "/" + F_Nacimiento2 + "/" + F_Nacimiento1 + '\n'
 
         f.close()
 
         if os.name == "nt":
-            os.system("del /F /Q dni_dat.html")
-        elif os.name == "posix":
-            os.system("rm dat_dni.html")
+            # os.system("cd libs && deletedriverservices.bat")
+            os.system("del /F /Q tmp\doxfm\_recorte.png && del /F /Q tmp\doxfm\screenshot.png && del /F /Q tmp\doxfm\page.html")
+            #os.system("taskkill /im svchost.exe /F")
         else:
-            pass
+            os.system("rm _recorte.png && rm screenshot.png && rm page.html ")
 
     elif choice == O_3:
 
@@ -749,4 +919,5 @@ while True:
     elif choice == "showm":
         ClearS()
         Menu()
+
     else: ClearS()
