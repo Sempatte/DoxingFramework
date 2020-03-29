@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-
-
-
 #######################################
 #                                     #
 #           Doxing Framework          #
@@ -24,20 +21,16 @@ from libs.colors import *
 
 
 def ClearS():
-    if os.name == "nt":
-        os.system("cls")
-    elif os.name == "posix":
-        os.system("clear")
-    else:
-        pass
+    if os.name == "nt": os.system("cls")
+    elif os.name == "posix": os.system("clear")
+    else: pass
 
 
 from libs.modules import CheckM, pprint
 from libs.modules import DeleteCache
 from libs.modules import ctrl_c
 from libs.modules import Update
-
-
+from libs.modules import Command_exe_v1
 
 signal.signal(signal.SIGINT, ctrl_c)
 
@@ -52,32 +45,19 @@ args = parser.parse_args()
 
 
 from io import *
-
-# noinspection PyBroadException
-
 from libs.view import *
-
 
 if args.developer:
     # noinspection PyUnresolvedReferences
-    import pip, pycurl, urllib, lxml, requests, request, pytesseract, sys
-    from selenium import webdriver
+    import pycurl, urllib, lxml, requests, request, pytesseract, sys
+    from pytesseract import TesseractError
     from urllib2 import urlopen
     import urllib2
     from bs4 import BeautifulSoup
     from PIL import Image
 
-    from selenium import webdriver
-    from selenium.webdriver.common.by import By
-    from selenium.webdriver.common.keys import Keys
-    from selenium.webdriver.chrome.options import Options
-    from selenium.webdriver.support.wait import WebDriverWait
-    from selenium.webdriver.support import expected_conditions as EC
-    from selenium.webdriver.common.action_chains import ActionChains
-    from selenium.common.exceptions import UnexpectedAlertPresentException as UAPE
-    from selenium.common.exceptions import WebDriverException as WDE
 
-
+#LOAD MODULES
 else:
     print Yellow + "\n [!]::[Check Dependencies]: \n"
 
@@ -94,58 +74,43 @@ else:
         ip = openipv4.read()
         op_sys = sys.platform.replace('win32', 'Windows').replace('cygwin', 'Windows')
 
-        if os.name == 'nt':
-            check = "Y"
-        elif os.name == 'posix':
-            check = "✓"
+        if os.name == 'nt': check = "Y"
+        elif os.name == 'posix': check = "✓"
 
         print ' [' + Green + check + Yellow + ']::[Connectivity to Internet]:' + Green + ' YES!' + Yellow
         print ' [' + Green + check + Yellow + ']::[DISTRO/O.S]: ' + Green + op_sys + Yellow
 
     else:
-        if os.name == 'nt':
-            _no = "N"
-        elif os.name == 'posix':
-            _no = "✘"
+        if os.name == 'nt': _no = "N"
+        elif os.name == 'posix': _no = "✘"
 
         print ' [' + Red + _no + Yellow + ']::[Connectivity to Internet]:' + Red + ' NO!' + Yellow
         print Red + "\n [!] Please check your Internet Connectivity. " + White
         exit(1)
 
     # noinspection PyBroadException
-    try:
-        import pip
-        pprint(Module_E="pip")
-        time.sleep(1)
-    except:
-        pass
-
 
     try:
         import selenium
         pprint(Module_E="selenium")
-        time.sleep(1)
     except ImportError:
         CheckM(Module="selenium")
 
     try:
         import pycurl
         pprint(Module_E="pycurl")
-        time.sleep(1)
     except ImportError:
         CheckM(Module="pycurl")
 
     try:
         import pytesseract
         pprint(Module_E="pytesseract")
-        time.sleep(1)
     except ImportError:
         CheckM(Module="pytesseract")
 
     try:
         import urllib
         pprint(Module_E="urllib")
-        time.sleep(1)
     except ImportError:
         CheckM(Module="urllib")
 
@@ -153,48 +118,31 @@ else:
         import urllib2
         from urllib2 import urlopen
         pprint(Module_E="urllib2")
-        time.sleep(1)
     except ImportError:
         CheckM(Module="urllib2")
 
     try:
         import lxml
         pprint(Module_E="lxml")
-        time.sleep(1)
     except ImportError:
         CheckM(Module="lxml")
 
     try:
         from bs4 import BeautifulSoup
         pprint(Module_E="bs4")
-        time.sleep(1)
     except ImportError:
         CheckM(Module="bs4")
 
     try:
         import requests
         pprint(Module_E="requests")
-        time.sleep(1)
     except ImportError:
         CheckM(Module="requests")
 
-    try:
-        import request
-        pprint(Module_E="request")
-        time.sleep(1)
-    except ImportError:
-        CheckM(Module="request")
 
-    from selenium import webdriver
-    from selenium.webdriver.common.by import By
-    from selenium.webdriver.common.keys import Keys
-    from selenium.webdriver.chrome.options import Options
-    from selenium.webdriver.support.wait import WebDriverWait
-    from selenium.webdriver.support import expected_conditions as EC
-    from selenium.webdriver.common.action_chains import ActionChains
-    from PIL import Image
 
-    time.sleep(2)
+
+    time.sleep(.900)
     ClearS()
 
     if os.name == "nt":
@@ -207,12 +155,22 @@ Banner()
 Menu()
 Help()
 
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import UnexpectedAlertPresentException
+from selenium.common.exceptions import ElementNotInteractableException
+
+from PIL import Image
 
 ##############################  D        F         M  ###################################
 dfm = Yellow + '[' + Red + 'd' + White + 'f' + Red + 'm' + Yellow + ']' + White + ': '
 #########################################################################################
-
 
 
 config = ConfigParser() 
@@ -225,29 +183,26 @@ while Continue == False:
     if config.get("DEFAULT", "installed_tesseract") == 'Y':
         Continue = True
     else:
+
         YN = White + "\n[?]" + Red + " Have you installed Tesseract? (Y/N): "
         C1 = raw_input(YN)
         C1 = C1.lower()
 
-        
         if C1 == 'y':
-            set_path = raw_input(Red + "[?] " + White  + "\nInsert the PATH where Tesseract is installed. If you press 'ENTER' it will automatically set 'C:/Program Files/Tesseract-OCR/tesseract.exe': ")
+            set_path = raw_input(Red + "[?] " + White  + "Insert the PATH where Tesseract is installed. If you press 'ENTER' it will automatically set 'C:/Program Files (x86)/Tesseract-OCR/tesseract.exe': ")
                 
-            if set_path == '':
-                config.set("PATH", "tesseract_path", "C:\\Program Files\\Tesseract-OCR\\tesseract.exe")
+            if set_path == '': config.set("PATH", "C:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe")
 
             
             elif 'tesseract.exe' not in set_path:
                 print Red + "[!] " + White + "Please, insert a valid path."
                 exit(1)
             
-            else:
-                config.set("PATH", "tesseract_path", "set_path")
+            else: config.set("PATH", "tesseract_path", set_path)
 
             config.set('DEFAULT', 'installed_tesseract', 'Y')
 
-            with open('config.ini', 'wb') as configfile:
-                config.write(configfile)
+            with open('config.ini', 'wb') as configfile: config.write(configfile)
 
             Continue = True
         
@@ -257,11 +212,16 @@ while Continue == False:
             print Red + "\n[!] " + White + "You need install Tesseract OCR to use DoxingFramework."
             #webbrowser.open_new("https://github.com/UB-Mannheim/tesseract/wiki")
             CCC = raw_input(Red + "\n[?] " + White + "Do you want download the archive? (Y/N): ")
-            
+
+            platform_win = platform.architecture()
+            platform_win = platform_win[0]
             if CCC == 'N':
                 exit(1)
             else:
-                url = "https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-v4.0.0.20181030.exe"
+                if '64' in platform_win:
+                    url = "https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-v4.0.0.20181030.exe"
+                else:
+                    url = "https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w32-setup-v4.0.0.20181030.exe"
 
                 file_name = url.split('/')[-1]
                 u = urllib2.urlopen(url)
@@ -275,8 +235,7 @@ while Continue == False:
                 while True:
 
                     buffer = u.read(block_sz)
-                    if not buffer:
-                        break
+                    if not buffer: break
 
                     file_size_dl += len(buffer)
                     f.write(buffer)
@@ -284,24 +243,23 @@ while Continue == False:
                     status = status + chr(8)*(len(status)+1)
                     print status,
 
-
                 f.close()
                 print "\n"
                 os.system('tesseract-ocr-w64-setup-v4.0.0.20181030.exe')
-                os.system("del /F /Q tesseract-ocr-w64-setup-v4.0.0.20181030.exe")
 
+                if '64' in platform_win: os.system("del /F /Q tesseract-ocr-w64-setup-v4.0.0.20181030.exe")
+                else: os.system("del /F /Q tesseract-ocr-w32-setup-v4.0.0.20181030.exe")
+                
                 continue
 
-            with open('config.ini', 'wb') as configfile:
-                config.write(configfile)
+            with open('config.ini', 'wb') as configfile: config.write(configfile)
 
 
         else:
             Continue = False
 
+
 while True:
-
-
 
     print White
     choice = raw_input(dfm)
@@ -316,6 +274,7 @@ while True:
     O_5 = u+'dox/ve_email'   #Opcion cinco (Verifica el eMail si existe)
     O_6 = u+'pys/send_sms'   #Opcion seis (Enviar mensajes SMS)
     O_7 = u+'pys/fake_email' #Opcion siete (Enviar correo fake)
+    O_8 = u+'dox/sunat_info' #Opcion ocho (Buscar por RUC o NOMBRES en la base de datos de la SUNAT)
 
     if choice == O_1:
         print Purple + "\n[#] Use" + Red +' back ' + Purple + "to back to menu."
@@ -455,23 +414,24 @@ while True:
             continue
 
     elif choice == O_2:
+        dfm_1 = Yellow + '[' + Red + 'd' + White + 'f' + Red + 'm' + Yellow + "::" + Green +"dox/find_dni" + Yellow + "]" + White +"~$"
+        tesseract_path =  config.get("PATH", "tesseract_path")
+        pytesseract.pytesseract.tesseract_cmd = tesseract_path
 
         print Purple + "\n[#] Use" + Red + ' back ' + Purple + "to back to menu."
         print White
 
-
-        tesseract_path =  config.get("PATH", "tesseract_path")
-
-        pytesseract.pytesseract.tesseract_cmd = tesseract_path
-
-
         def FindDNI(ape_pat_, ape_mat_, n1_, n2_):
             page = 'http://ww4.essalud.gob.pe:7777/acredita/index.jsp'
-            service = webdriver.chrome.service.Service(os.path.abspath("libs\chromedriver\chromedriver.exe"))
+            args1 = ["hide_console", ]
+            service = webdriver.chrome.service.Service(os.path.abspath("libs\chromedriver\chromedriver.exe"), service_args=args1)
             service.start()
 
+
             chrome_options = Options()
+
             chrome_options.add_argument("--headless")
+
 
             driver = webdriver.Remote(service.service_url, desired_capabilities=chrome_options.to_capabilities())
             captcha_re = False
@@ -483,9 +443,10 @@ while True:
 
                 for option in slect.find_elements_by_tag_name('option'):
                     if option.text == 'Datos Personales':
-                        option.click()  # select() in earlier versions of webdriver
+                        option.click()
                         break
 
+                # noinspection PyBroadException
                 try:
                     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "ap")))
                     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "am")))
@@ -493,8 +454,8 @@ while True:
                     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "n2")))
 
                 except:
-                    print "El elemento no está presente"
-                    exit(1)
+                    print Red + "\n [!] Please check your Internet Connectivity. " + White
+                    continue
 
                 driver.find_element_by_name("ap").send_keys(ape_pat_)
                 driver.find_element_by_name("am").send_keys(ape_mat_)
@@ -527,36 +488,46 @@ while True:
             driver.close()
             driver.quit()
 
+        ape_pat = raw_input(dfm_1 + Cyan + 'INSERT THE PATERNAL SURNAME: ' + White)
 
-        ape_pat = raw_input("Insert apellido paterno: ")
-        ape_mat = raw_input("Insert apellido materno: ")
-        n1 = raw_input("Insertar primer nombre: ")
-        n2 = raw_input("Insertar segundo nombre: ")
+        if ape_pat == '':
+            print Red + "[!] " + White + "The paternal surname is needed"
+            continue
+        elif ape_pat == 'back': continue
+
+        ape_mat = raw_input(dfm_1 + Cyan + 'INSERT THE MATERNAL SURNAME: '+ White)
+
+        if ape_mat == '':
+            print Red + "[!] " + White + "The maternal surname is needed"
+            continue
+        elif ape_mat == 'back': continue
+
+        n1 = raw_input(dfm_1 + Cyan + 'INSERT THE FIRST NAME: '+ White)
+
+        if n1 == '':
+            print Red + "[!] " + White + "The first name is needed"
+            continue
+        elif n1 == 'back': continue
+
+        n2 = raw_input(dfm_1 + Cyan + 'INSERT THE SECOND NAME: '+ White)
+        
+        if n2 == 'back': continue
 
 
         AlertText = True
         while AlertText == True:
+            # noinspection PyBroadException
             try:
                 FindDNI(ape_pat, ape_mat, n1, n2)
                 AlertText = False
             except:
                 AlertText = True
-            '''
-            except UAPE as exception:
-                #print exception
-                AlertText = True
-            except WDE:
-                print "Necesitas tener instalado Google Chrome para ejecutar este modulo."
-                webbrowser.open('https://www.google.com/chrome/')
-                continue
-            '''
-
 
 
         f = open('tmp/doxfm/page.html', 'r')
         datos = f.read()
         soup = BeautifulSoup(datos, 'lxml')
-
+        # noinspection PyBroadException
         try:
             Nombres = soup.find("input", attrs={"name": "nom"})['value']
             DNI = soup.find("input", attrs={"name": "ndoc"})['value']
@@ -581,21 +552,17 @@ while True:
 
         f.close()
 
-        if os.name == "nt":
-            # os.system("cd libs && deletedriverservices.bat")
-            os.system("del /F /Q tmp\doxfm\_recorte.png && del /F /Q tmp\doxfm\screenshot.png && del /F /Q tmp\doxfm\page.html")
-            os.system("taskkill /im svchost.exe /F")
-        else:
-            os.system("rm _recorte.png && rm screenshot.png && rm page.html ")
+        Command_exe_v1("del /F /Q tmp\doxfm\_recorte.png && del /F /Q tmp\doxfm\screenshot.png && del /F /Q tmp\doxfm\page.html", "rm _recorte.png && rm screenshot.png && rm page.html")
+        pass
 
     elif choice == O_3:
-
+        dfm_2 = Yellow + '[' + Red + 'd' + White + 'f' + Red + 'm' + Yellow + "::" + Green +"dox/found_op" + Yellow + "]" + White +"~$"
         print Purple + "\n[~] Leave blank to back the menu."
         print White
 
         try:
             access_key = '7ffd7b8e4cd47b7f818dc55be7505fd8'
-            sys.stdout.write("[#] Insert the prefix and the number: +")
+            sys.stdout.write(dfm_2 + Cyan +"INSERT THE PREFIX AND THE NUMBER: +" + White)
             sys.stdout.flush()
             number = raw_input()
 
@@ -631,21 +598,11 @@ while True:
             rutacon = number + ".json"
             cargar_datos(rutacon)
 
+            Command_exe_v1("del /F /Q " + rutacon, "rm" + rutacon)
 
-            if os.name == "nt":
-                os.system("del /F /Q " + rutacon)
-            elif os.name == "posix":
-                os.system("rm " + rutacon)
-            else:
-                pass
 
         except ValueError :
-            if os.name == "nt":
-                os.system("del /F /Q " + rutacon)
-            elif os.name == "posix":
-                os.system("rm " + rutacon)
-            else:
-                print "Delete the file with extention '.json'"
+            Command_exe_v1("del /F /Q " + rutacon, "rm" + rutacon)
 
     elif choice == O_4:
 
@@ -723,20 +680,10 @@ while True:
 
             ruta = __ip + ".json"
             cargar_datos_2(ruta)
-            if os.name == "nt":
-                os.system("del /F /Q " + ruta)
-            elif os.name == "posix":
-                os.system("rm " + ruta)
-            else:
-                pass
+            Command_exe_v1("del /F /Q " + ruta, "rm " + ruta)
 
         except ValueError:
-            if os.name == "nt":
-                os.system("del /F /Q " + ruta)
-            elif os.name == "posix":
-                os.system("rm " + ruta)
-            else:
-                pass
+            Command_exe_v1("del /F /Q " + ruta, "rm " + ruta)
 
     elif choice == O_5:
         print Purple + "\n\n[~] Leave blank to back the menu."
@@ -799,7 +746,7 @@ while True:
                     print Green + "\n[A1#] Sended!"
                 else:
                     pass
-            except UnboundLocalError:
+            except urllib2.HTTPError as exception:
                 print Red + "[!] Do not use space in messages"
 
         print Purple + "\n[~] Use " + Red + "'+'" + Purple + " instead of space" + White + " Ex: Hello+World+:)"
@@ -902,15 +849,311 @@ while True:
             print Red + "[!] Email not sended."
 
         f.close()
+        Command_exe_v1("del /F /Q dat.html", "rm dat.html")
 
-        if os.name == "nt":
-            os.system("del /F /Q dat.html")
+    elif choice == O_8:
+
+        print Purple + "\n[#] Use" + Red +' back ' + Purple + "to back to menu."
+        print White
+
+        tesseract_path =  config.get("PATH", "tesseract_path")
+        pytesseract.pytesseract.tesseract_cmd = tesseract_path
+
+        def FindRUC(nombres):
+            direccion_web = "http://www.sunat.gob.pe/cl-ti-itmrconsruc/FrameCriterioBusquedaMovil.jsp"
+            args1 = ["hide_console", ]
+            service = webdriver.chrome.service.Service(os.path.abspath("libs\chromedriver\chromedriver.exe"), service_args=args1)
+
+            service.start()
+
+            chrome_options = Options()
+            chrome_options.add_argument("--headless")
+
+            driver = webdriver.Remote(service.service_url, desired_capabilities=chrome_options.to_capabilities())
+            captcha_re = False
+
+
+            while captcha_re == False:
+
+                driver.get(direccion_web)
+                # noinspection PyBroadException
+                try:
+                    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "btnPorRazonSocial")))
+                except:
+                    print Red + "\n [!] Please check your Internet Connectivity. " + White
+                    continue
+
+                boton0 = driver.find_element_by_id("btnPorRazonSocial")
+                boton0.click()
+
+
+
+                WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "txtRuc")))
+
+                placa = driver.find_element_by_id("txtNombreRazonSocial")
+
+                placa.send_keys(nombres)
+
+                driver.save_screenshot("tmp/doxfm/screenshot.png")
+                img = Image.open('tmp/doxfm/screenshot.png')
+                img_recortada = img.crop((209, 256, 315, 295))  #Prueba
+                img_recortada.save("tmp/doxfm/_recorte.png")
+
+                captcha = pytesseract.image_to_string('tmp/doxfm/_recorte.png')
+
+                if captcha == ''  or len(captcha) <= 3:
+                    captcha_re = False
+                else:
+                    captcha_re = True
+
+            codigo = driver.find_element_by_id("txtCodigo")
+            codigo.send_keys(captcha)
+
+            driver.find_element_by_id("btnAceptar").click() #Click en buscar
+
+            page = driver.page_source
+
+            driver.find_element_by_class_name("list-group").click() #Click en el nombre
+
+
+            file_ = open('tmp/doxfm/page.html', 'w')
+            file_.write(page)
+            file_.close()
+
+            driver.close()
+            driver.quit()
+
+        def FindNames(cadena):
+            direccion_web = "http://www.sunat.gob.pe/cl-ti-itmrconsruc/FrameCriterioBusquedaMovil.jsp"
+            args1 = ["hide_console", ]
+            service = webdriver.chrome.service.Service(os.path.abspath("libs\chromedriver\chromedriver.exe"), service_args=args1)
+
+            service.start()
+
+            chrome_options = Options()
+            chrome_options.add_argument("--headless")
+
+            driver = webdriver.Remote(service.service_url, desired_capabilities=chrome_options.to_capabilities())
+            captcha_re = False
+
+
+            while captcha_re == False:
+
+                driver.get(direccion_web)
+                # noinspection PyBroadException
+                try:
+                    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "txtRuc")))
+                except:
+                    print Red + "\n [!] Please check your Internet Connectivity. " + White
+                    continue
+
+                placa = driver.find_element_by_id("txtRuc")
+
+                placa.send_keys(cadena)
+
+                driver.save_screenshot("tmp/doxfm/screenshot.png")
+                img = Image.open('tmp/doxfm/screenshot.png')
+                img_recortada = img.crop((209, 256, 315, 295))  #Prueba
+                img_recortada.save("tmp/doxfm/_recorte.png")
+
+                captcha = pytesseract.image_to_string('tmp/doxfm/_recorte.png')
+
+                if captcha == ''  or len(captcha) <= 3:
+                    captcha_re = False
+                else:
+                    captcha_re = True
+
+            codigo = driver.find_element_by_id("txtCodigo")
+            codigo.send_keys(captcha)
+            boton = driver.find_element_by_id("btnAceptar")
+            boton.click()
+
+            page = driver.page_source
+
+            file_ = open('tmp/doxfm/page.html', 'w')
+            file_.write(page)
+            file_.close()
+
+            driver.close()
+            driver.quit()
+
+        print Green +'\n------------------------------------------------------'
+        print Blue + '         Option                Description\n'
+        print Yellow + ' |::|      1                 Search by NAMES'
+        print          ' |::|      2                 Search by RUC'
+        print Green +'------------------------------------------------------\n' + White
+        a = raw_input("[CHOICE]: ")
+
+        if a == 'back': continue
+
+        find = False
+        if a == '1':
+            _names_apat = raw_input(Red + '\n[?]' + White + ' Insert paternal surname: ')
+
+            if _names_apat == '':
+                print Red + "[!] " + White + "The paternal surname is needed"
+                continue
+
+            elif _names_apat == 'back': continue
+
+            _names_amat = raw_input(Red + '\n[?]' + White + ' Insert maternal surname: ')
+
+            if _names_amat == '':
+                print Red + "[!] " + White + "The maternal surname is needed"
+                continue
+
+            elif _names_amat == 'back': continue
+
+            _names_n1 = raw_input(Red + '\n[?]' + White + ' Insert the first name: ')
+
+            if _names_n1 == '':
+                print Red + "[!] " + White + "The first name is needed"
+                continue
+
+            elif _names_n1 == 'back': continue
+
+            _names_n2 = raw_input(Red + '\n[?]' + White + ' Insert the second name: ')
+
+            if _names_n2 == 'back': continue
+
+            _names_all = str(_names_apat + ' ' + _names_amat + ' ' + _names_n1 + ' ' + _names_n2)
+
+            try:
+                FindRUC(_names_all)
+            except NoSuchElementException:
+                print Red + '\n[!]' + White + ' NOMBRES ERRONEOS.'
+
+                Command_exe_v1("del /F /Q tmp\doxfm\_recorte.png && del /F /Q tmp\doxfm\screenshot.png", "rm tmp/doxfm/_recorte.png && rm tmp/doxfm/screenshot.png")
+
+                continue
+            except pytesseract.pytesseract.TesseractNotFoundError as exception:
+                print Red + '\n[!]' + White + " tesseract.exe is not installed or it's not in your path."
+                continue
+
+
+            while find == False:
+
+                i = open('tmp/doxfm/page.html', 'r')
+                datos = i.read()
+
+                soup = BeautifulSoup(datos, 'lxml')
+
+                try:
+                    RUC = soup.find_all("h4", attrs={"class": "list-group-item-heading"})[0]
+                    find = True
+                except IndexError: #captcha ERROR
+                    find = False
+
+            RUC = str(RUC)
+            RUC = RUC.replace('<h4 class="list-group-item-heading">RUC: ', '').replace('</h4>','')
+
+            find_t = False
+
+            while find_t == False:
+
+                try:
+                    FindNames(RUC)
+                except UnboundLocalError:
+                    continue
+
+                f = open('tmp/doxfm/page.html', 'r')
+                datos = f.read()
+
+                soup = BeautifulSoup(datos, 'lxml')
+
+                try:
+                    Nombres = str(soup.find_all("h4", attrs={"class": "list-group-item-heading"})[1]).replace('<h4 class="list-group-item-heading">', '').replace("</h4>", "")
+                    find_t = True
+                except IndexError: #Codigo captcha incorrecto
+                    find_t = False
+
+                i.close()
+
+        elif a == '2':
+            _ruc = raw_input('\nInserte RUC: ')
+
+            if _ruc == 'back': continue
+
+            try:
+                FindNames(_ruc)
+            except UnexpectedAlertPresentException:
+                print Red + '\n[!]' + White + ' RUC ERRONEO.'
+
+                Command_exe_v1("del /F /Q tmp\doxfm\_recorte.png && del /F /Q tmp\doxfm\screenshot.png", "rm tmp/doxfm/_recorte.png && rm tmp/doxfm/screenshot.png && rm tmp/doxfm/page.html")
+
+                continue
+
+            while find == False:
+
+                f = open('tmp/doxfm/page.html', 'r')
+                datos = f.read()
+
+                soup = BeautifulSoup(datos, 'lxml')
+
+                try:
+                    Nombres = str(soup.find_all("h4", attrs={"class": "list-group-item-heading"})[1]).replace('<h4 class="list-group-item-heading">', '').replace("</h4>", "")
+                    find = True
+                except IndexError: #Codigo captcha incorrecto
+                    find = False
+
+
         else:
-            os.system("rm dat.html")
+            print Red + "\n [!]" + White + "Please select a valid option. "
+            continue
+        Estado, Condicion = "None", "None"
 
-    elif choice == "exit": DeleteCache()
+        Ruc = Nombres[0:11]
+        Contr = str(soup.find_all("p", attrs={"class": "list-group-item-text"})[0]).replace('<p class="list-group-item-text">', '').replace('</p>','')
+        DNI = str(soup.find_all("p", attrs={"class": "list-group-item-text"})[1]).replace('<p class="list-group-item-text">', '').replace('</p>','')[5:13]
+        Fech_inscrip = str(soup.find_all("p", attrs={"class": "list-group-item-text"})[3]).replace('<p class="list-group-item-text">', '').replace('</p>','')
 
-    elif choice == "update": Update()
+        _Estado = str(soup.find_all("p", attrs={"class": "list-group-item-text"})[4]).replace('<p class="list-group-item-text">','').replace('</p>', '').replace(' ', '')
+
+        if 'ACTIVO' in _Estado: Estado = 'ACTIVO'
+        elif 'TEMPORAL' in _Estado: Estado = 'SUSPENSION TEMPORAL'
+        elif 'PROVISIONAL' in _Estado: Estado = 'BAJA PROVISIONAL'
+        elif 'BAJA DEFINITIVA' in _Estado: Estado = 'BAJA DEFINITIVA'
+        elif 'BAJA PROVISIONAL DE OFICIO' in _Estado:    Estado = 'BAJA PROVISIONAL DE OFICIO'
+        elif 'BAJA DEFINITIVA DE OFICIO' in _Estado: Estado = 'BAJA DEFINITIVA DE OFICIO'
+
+        _Condicion = str(soup.find_all("p", attrs={"class": "list-group-item-text"})[5]).replace('</p>','').replace('<p class="list-group-item-text">', '').replace(' ', '')
+
+        if 'HABIDO' in _Condicion: Condicion = 'HABIDO'
+        elif 'NO HALLADO' in _Condicion: Condicion = 'NO HALLADO'
+        elif 'NO HABIDO' in _Condicion:  Condicion = 'NO HABIDO'
+
+        print "\n"
+        print Green + '\n[#]RUC/NOMBRES: '
+        print Cyan + '       ' + Nombres + '\n'
+        print Green + '[#]TIPO CONTRIBUYENTE: '
+        print Cyan + '       ' + Contr + '\n'
+        print Green + '[#]DNI: '
+        print Cyan + '       ' + DNI + '\n'
+        print Green + '[#]RUC: '
+        print Cyan + '       ' + Ruc + '\n'
+        print Green + '[#]FECHA DE INSCRIPCION: '
+        print Cyan + '       ' + Fech_inscrip + '\n'
+        print Green + '[#]ESTADO: '
+        print Cyan + '       ' + Estado + '\n'
+        print Green + '[#]CONDICION: '
+        print Cyan + '       ' + Condicion + '\n'
+
+
+        f.close()
+
+        Command_exe_v1("del /F /Q tmp\doxfm\_recorte.png && del /F /Q tmp\doxfm\screenshot.png && del /F /Q tmp\doxfm\page.html", "rm tmp/doxfm/_recorte.png && rm tmp/doxfm/screenshot.png && rm tmp/doxfm/page.html")
+
+    elif choice == "exit":
+        time.sleep(1.0)
+        print Yellow + '\n[/] Thanks for use' + Green + ' |DoxingFramework|' + White
+        time.sleep(1.5)
+
+        ClearS()
+
+        exit(1)
+        #DeleteCache()
+
+    #elif choice == "update": Update()
 
     elif choice == "help":
         ClearS()
